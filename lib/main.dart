@@ -13,7 +13,7 @@ void main() async {
   runApp(MaterialApp(
     title: 'increment',
     theme: ThemeData(
-      primaryColor: Colors.blue,
+      primaryColor: Colors.red,
     ),
     home: const HomePage(),
     routes: {

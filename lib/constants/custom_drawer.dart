@@ -26,7 +26,7 @@ class CustomDrawer extends StatelessWidget {
                   margin: const EdgeInsets.only(top: 50, bottom: 20),
                   child: Column(
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         radius: 45,
                         backgroundColor: Color.fromARGB(255, 43, 43, 43),
                         child: Text(
@@ -34,7 +34,7 @@ class CustomDrawer extends StatelessWidget {
                           style: TextStyle(fontSize: 45.0),
                         ),
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Text(
                         name ?? "",
                         style: TextStyle(

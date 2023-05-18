@@ -63,8 +63,8 @@ class _MainViewState extends State<MainView> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
-        backgroundColor: Color.fromARGB(255, 28, 33, 41),
-        unselectedItemColor: Color.fromARGB(255, 106, 120, 143),
+        backgroundColor: const Color.fromARGB(255, 28, 33, 41),
+        unselectedItemColor: const Color.fromARGB(255, 106, 120, 143),
         selectedItemColor: Theme.of(context).primaryColor,
         currentIndex: widget.currentIndex,
         onTap: (index) {
@@ -92,7 +92,7 @@ class _MainViewState extends State<MainView> {
           ),
         ),
         elevation: 0,
-        title: Text('$fetchedName'),
+        title: Text('Hey, $fetchedName!'),
       ),
     );
   }

@@ -17,11 +17,13 @@ class Users {
   final String name;
   String taskId;
   String task;
+  bool isChecked;
 
   Users({
     this.taskId = '',
     required this.task,
     required this.name,
+    this.isChecked = false,
   });
 
 // Writing
@@ -29,6 +31,7 @@ class Users {
         'name': name,
         'taskId': taskId,
         'task': task,
+        'isChecked': isChecked,
       };
 
 // Reading
@@ -36,19 +39,58 @@ class Users {
         name: json['name'],
         taskId: json['taskId'],
         task: json['task'],
+        isChecked: json['isChecked'],
       );
+
+  void toggleChecked() {
+    isChecked = !isChecked;
+  }
 }
 
 // Adding Tasks (Task Tile)
-Widget buildUser(Users user) => Container(
+Widget buildUser(Users user, Function() onChanged) => Container(
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 40, 46, 55),
+        color: user.isChecked
+            ? const Color.fromARGB(255, 55, 40, 40)
+            : const Color.fromARGB(255, 40, 46, 55),
         borderRadius: BorderRadius.circular(15),
       ),
       child: ListTile(
+        trailing: Transform.scale(
+          scale: 1.2,
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            child: Checkbox(
+              fillColor: MaterialStateProperty.resolveWith((states) {
+                if (states.contains(MaterialState.selected)) {
+                  return Colors.red; // When checkbox is checked
+                } else {
+                  return const Color.fromARGB(
+                      255, 197, 197, 197); // When checkbox is unchecked
+                }
+              }),
+              value: user.isChecked,
+              onChanged: (newValue) {
+                onChanged(); // Invoking the callback to update the state
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(user.taskId)
+                    .update({'isChecked': user.isChecked});
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
+            ),
+          ),
+        ),
         title: Text(
           user.task,
-          style: const TextStyle(color: Colors.white),
+          style: user.isChecked
+              ? const TextStyle(
+                  color: Color.fromARGB(255, 139, 148, 172),
+                  decoration: TextDecoration.lineThrough,
+                )
+              : const TextStyle(color: Colors.white),
         ),
       ),
     );
@@ -106,10 +148,13 @@ class _TasksPageState extends State<TasksPage> {
               child: Container(
                 child: Column(
                   children: const [
-                    Image(
-                      image: NetworkImage(
-                          'https://res.cloudinary.com/dw095oyal/image/upload/w_1000,h_1000,c_limit,q_auto/v1684174717/IMAGE_eoaowr.png'),
-                      fit: BoxFit.cover,
+                    Padding(
+                      padding: EdgeInsets.only(top: 1.025),
+                      child: Image(
+                        image: NetworkImage(
+                            'https://res.cloudinary.com/dw095oyal/image/upload/w_1000,h_1000,c_limit,q_auto/v1684428601/IMAGE_u5ohjg.png'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ],
                 ),
@@ -122,8 +167,8 @@ class _TasksPageState extends State<TasksPage> {
                 decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 28, 33, 41),
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
                     )),
                 child: StreamBuilder<List<Users>>(
                   stream: readTask(),
@@ -134,8 +179,13 @@ class _TasksPageState extends State<TasksPage> {
                       final users = snapshot.data!;
                       return users.isEmpty
                           ? const Center(
-                              child: Text('No Tasks',
-                                  style: TextStyle(color: Colors.white)))
+                              child: Text(
+                                'Get to work, you lazy bum!',
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 205, 205, 205),
+                                ),
+                              ),
+                            )
                           : Padding(
                               padding: const EdgeInsets.only(top: 15),
                               child: ListView.builder(
@@ -143,39 +193,43 @@ class _TasksPageState extends State<TasksPage> {
                                 itemBuilder: (context, index) {
                                   final user = users[index];
                                   return Container(
-                                    margin: const EdgeInsets.symmetric(
-                                      horizontal: 20,
-                                      vertical: 10,
-                                    ),
-                                    child: Dismissible(
-                                      key: Key(user.taskId),
-                                      onDismissed: (direction) {
-                                        _onDismissed(user.taskId);
-                                      },
-                                      direction: DismissDirection.endToStart,
-                                      background: ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: Container(
-                                          color: Colors.red,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: const [
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    right: 16.0),
-                                                child: Icon(
-                                                  Icons.delete,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                      margin: const EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                        vertical: 10,
                                       ),
-                                      child: buildUser(user),
-                                    ),
-                                  );
+                                      child: Dismissible(
+                                          key: Key(user.taskId),
+                                          onDismissed: (direction) {
+                                            _onDismissed(user.taskId);
+                                          },
+                                          direction:
+                                              DismissDirection.endToStart,
+                                          background: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            child: Container(
+                                              color: Colors.red,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: const [
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        right: 16.0),
+                                                    child: Icon(
+                                                      Icons.delete,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          child: buildUser(user, () {
+                                            setState(() {
+                                              user.toggleChecked();
+                                            });
+                                          })));
                                 },
                               ),
                             );
@@ -241,7 +295,7 @@ class _TasksPageState extends State<TasksPage> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       elevation: 0,
-                      child: Text(
+                      child: const Text(
                         'increment',
                         style: TextStyle(
                           color: Colors.white,
