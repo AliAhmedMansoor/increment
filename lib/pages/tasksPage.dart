@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 
 class TasksPage extends StatefulWidget {
@@ -47,56 +50,111 @@ class Users {
   }
 }
 
-// Adding Tasks (Task Tile)
-Widget buildUser(Users user, Function() onChanged) => Container(
-      decoration: BoxDecoration(
-        color: user.isChecked
-            ? const Color.fromARGB(255, 55, 40, 40)
-            : const Color.fromARGB(255, 40, 46, 55),
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: ListTile(
-        trailing: Transform.scale(
-          scale: 1.2,
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            child: Checkbox(
-              fillColor: MaterialStateProperty.resolveWith((states) {
-                if (states.contains(MaterialState.selected)) {
-                  return Colors.red; // When checkbox is checked
-                } else {
-                  return const Color.fromARGB(
-                      255, 197, 197, 197); // When checkbox is unchecked
-                }
-              }),
-              value: user.isChecked,
-              onChanged: (newValue) {
-                onChanged(); // Invoking the callback to update the state
-                FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(user.taskId)
-                    .update({'isChecked': user.isChecked});
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6),
+class _TasksPageState extends State<TasksPage> {
+  final controller = TextEditingController();
+  final confettiController = ConfettiController();
+  bool hasConfettiPlayed = false;
+  // For closing keyboard
+  FocusNode _focusNode = FocusNode();
+
+  // Adding Tasks (Task Tile)
+  Widget buildUser(Users user, Function() onChanged) =>
+      Stack(alignment: Alignment.center, children: [
+        Container(
+          decoration: BoxDecoration(
+            color: user.isChecked
+                ? Color.fromARGB(255, 47, 45, 66)
+                : const Color.fromARGB(255, 40, 46, 55),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: ListTile(
+            trailing: Transform.scale(
+              scale: 1.29,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                child: Checkbox(
+                  fillColor: MaterialStateProperty.resolveWith((states) {
+                    if (states.contains(MaterialState.selected)) {
+                      return const Color.fromARGB(
+                          255, 80, 109, 224); // When checkbox is checked
+                    } else {
+                      return const Color.fromARGB(
+                          255, 197, 197, 197); // When checkbox is unchecked
+                    }
+                  }),
+                  value: user.isChecked,
+                  onChanged: (newValue) {
+                    setState(() {
+                      user.toggleChecked();
+                      if (user.isChecked && !hasConfettiPlayed) {
+                        confettiController.play();
+                        hasConfettiPlayed = true;
+                        // Start the timer for 2 seconds
+                        Timer(const Duration(seconds: 1), () {
+                          confettiController.stop();
+                        });
+                      }
+                    });
+                    FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(user.taskId)
+                        .update({'isChecked': user.isChecked});
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                ),
               ),
+            ),
+            title: Text(
+              user.task,
+              style: user.isChecked
+                  ? const TextStyle(
+                      color: Color.fromARGB(255, 139, 148, 172),
+                      decoration: TextDecoration.lineThrough,
+                    )
+                  : const TextStyle(color: Colors.white),
             ),
           ),
         ),
-        title: Text(
-          user.task,
-          style: user.isChecked
-              ? const TextStyle(
-                  color: Color.fromARGB(255, 139, 148, 172),
-                  decoration: TextDecoration.lineThrough,
-                )
-              : const TextStyle(color: Colors.white),
-        ),
-      ),
-    );
+        if (user.isChecked)
+          Transform.scale(
+            scale: 0.7,
+            child: ConfettiWidget(
+              confettiController: confettiController,
+              blastDirectionality: BlastDirectionality.explosive,
+              emissionFrequency: 0,
+              gravity: 0.5,
+              maxBlastForce: 30,
+              numberOfParticles: 10,
+              shouldLoop: false,
+              colors: const [
+                Colors.red,
+                Colors.blue,
+                Colors.yellow,
+                Colors.green,
+              ],
+            ),
+          ),
+      ]);
 
-class _TasksPageState extends State<TasksPage> {
-  final controller = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    confettiController.addListener(() {
+      if (confettiController.state == ConfettiControllerState.stopped) {
+        setState(() {
+          hasConfettiPlayed = false;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    confettiController.dispose();
+    super.dispose();
+  }
 
   // Reading Task
   Stream<List<Users>> readTask() {
@@ -140,7 +198,7 @@ class _TasksPageState extends State<TasksPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.red,
+        color: Color.fromARGB(255, 80, 109, 224),
         child: Column(
           children: [
             Expanded(
@@ -198,38 +256,39 @@ class _TasksPageState extends State<TasksPage> {
                                         vertical: 10,
                                       ),
                                       child: Dismissible(
-                                          key: Key(user.taskId),
-                                          onDismissed: (direction) {
-                                            _onDismissed(user.taskId);
-                                          },
-                                          direction:
-                                              DismissDirection.endToStart,
-                                          background: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            child: Container(
-                                              color: Colors.red,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: const [
-                                                  Padding(
-                                                    padding: EdgeInsets.only(
-                                                        right: 16.0),
-                                                    child: Icon(
-                                                      Icons.delete,
-                                                      color: Colors.white,
-                                                    ),
+                                        key: Key(user.taskId),
+                                        onDismissed: (direction) {
+                                          _onDismissed(user.taskId);
+                                        },
+                                        direction: DismissDirection.endToStart,
+                                        background: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          child: Container(
+                                            color: Color.fromARGB(
+                                                255, 80, 109, 224),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: const [
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      right: 16.0),
+                                                  child: Icon(
+                                                    Icons.delete,
+                                                    color: Colors.white,
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          child: buildUser(user, () {
-                                            setState(() {
-                                              user.toggleChecked();
-                                            });
-                                          })));
+                                        ),
+                                        child: buildUser(user, () {
+                                          setState(() {
+                                            user.toggleChecked();
+                                          });
+                                        }),
+                                      ));
                                 },
                               ),
                             );
@@ -247,6 +306,7 @@ class _TasksPageState extends State<TasksPage> {
                 children: [
                   Expanded(
                     child: TextField(
+                      focusNode: _focusNode, // Closing Keyboard
                       controller: controller,
                       style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
@@ -257,7 +317,7 @@ class _TasksPageState extends State<TasksPage> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: const BorderSide(
-                            color: Colors.red,
+                            color: Color.fromARGB(255, 80, 109, 224),
                             width: 2.0,
                           ),
                         ),
@@ -271,7 +331,7 @@ class _TasksPageState extends State<TasksPage> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: const BorderSide(
-                            color: Colors.red,
+                            color: Color.fromARGB(255, 80, 109, 224),
                             width: 2.0,
                           ),
                         ),
@@ -289,8 +349,9 @@ class _TasksPageState extends State<TasksPage> {
                         final task = controller.text;
                         createTask(task: task);
                         controller.clear();
+                        _focusNode.unfocus();
                       },
-                      backgroundColor: Colors.red,
+                      backgroundColor: const Color.fromARGB(255, 80, 109, 224),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),

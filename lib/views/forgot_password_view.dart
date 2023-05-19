@@ -12,6 +12,8 @@ class ForgotPasswordView extends StatefulWidget {
 
 class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   final _email = TextEditingController();
+  String _errorMessage = '';
+  String _message = 'We will send you a link to reset your password.';
 
   @override
   void dispose() {
@@ -23,18 +25,30 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     try {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: _email.text.trim());
-      showDialog(
-          context: context,
-          builder: (context) {
-            return const AlertDialog(
-              content: Text('Password reset link has been sent to you'),
-            );
-          });
+      // showDialog(
+      //     context: context,
+      //     builder: (context) {
+      //       return const AlertDialog(
+      //         content: Text('Password reset link has been sent to you'),
+      //       );
+      //     });
+      setState(() {
+        _message =
+            'The password reset email has been sent to you! Please check your inbox or spam. :)';
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        await showErrorDialog(context, 'User does not exist');
+        setState(() {
+          _errorMessage = 'Uh-oh! The account does not exist.';
+        });
+      } else if (e.code == 'missing-email') {
+        setState(() {
+          _errorMessage = 'Umm, this is not how it works.';
+        });
       } else {
-        await showErrorDialog(context, 'Error: ${e.code}');
+        setState(() {
+          _errorMessage = 'Error: ${e.code}';
+        });
       }
     }
   }
@@ -43,6 +57,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: const Color.fromARGB(255, 24, 24, 24),
       ),
       backgroundColor: const Color.fromARGB(255, 24, 24, 24),
@@ -95,6 +110,19 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
 
                 const SizedBox(height: 20),
 
+// Error Message
+                if (_errorMessage.isNotEmpty)
+                  Center(
+                    child: Text(
+                      _errorMessage,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                const SizedBox(height: 20),
+
                 // Reset Button
                 MyButton(
                   onTap: () async {
@@ -115,9 +143,17 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
 
                 const SizedBox(height: 20),
 
-                const Text(
-                  "We'll send you a link to reset your password.",
-                  style: TextStyle(color: Color.fromARGB(255, 231, 231, 231)),
+                Center(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 24),
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      _message,
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 231, 231, 231)),
+                    ),
+                  ),
                 ),
               ],
             ),

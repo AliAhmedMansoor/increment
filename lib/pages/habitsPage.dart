@@ -12,7 +12,7 @@ class _HabitsPageState extends State<HabitsPage> {
   Widget build(BuildContext context) {
     return const SafeArea(
       child: Center(
-        child: Text('Im still workin ;___;'),
+        child: Text('Im still workin on it ;___;'),
       ),
     );
   }

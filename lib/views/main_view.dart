@@ -65,7 +65,7 @@ class _MainViewState extends State<MainView> {
         elevation: 0,
         backgroundColor: const Color.fromARGB(255, 28, 33, 41),
         unselectedItemColor: const Color.fromARGB(255, 106, 120, 143),
-        selectedItemColor: Theme.of(context).primaryColor,
+        selectedItemColor: Color.fromARGB(255, 116, 143, 249),
         currentIndex: widget.currentIndex,
         onTap: (index) {
           setState(() {
@@ -82,7 +82,7 @@ class _MainViewState extends State<MainView> {
       ),
       drawer: CustomDrawer(name: fetchedName),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Color.fromARGB(255, 80, 109, 224),
         leading: Builder(
           builder: (context) => IconButton(
             icon: const Icon(Icons.circle_outlined),

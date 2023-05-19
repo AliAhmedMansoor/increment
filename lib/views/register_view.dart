@@ -27,6 +27,7 @@ class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
   late final TextEditingController _confirmPassword;
+  String _errorMessage = '';
 
   @override
   void initState() {
@@ -224,25 +225,29 @@ class _RegisterViewState extends State<RegisterView> {
                       AuthService.firebase().sendEmailVerification();
                       Navigator.of(context).pushNamed(verifyEmailRoute);
                     } on WeakPasswordAuthException {
-                      await showErrorDialog(
-                        context,
-                        'Your password needs a gym pass!',
-                      );
+                      setState(() {
+                        _errorMessage = 'Your password needs a gym pass!';
+                      });
                     } on EmailAlreadyInUseAuthException {
-                      await showErrorDialog(
-                        context,
-                        'Email is already registered!',
-                      );
+                      setState(() {
+                        _errorMessage =
+                            'Oops! An account with this email already exists.';
+                      });
                     } on InvalidEmailAuthException {
-                      await showErrorDialog(
-                        context,
-                        'Invalid Email.',
-                      );
+                      setState(() {
+                        _errorMessage = 'Uh-oh! The email syntax is invalid.';
+                      });
                     } on GenericAuthException {
-                      await showErrorDialog(
-                        context,
-                        'Could not register.',
-                      );
+                      // await showErrorDialog(context, 'Authentication Error');
+                      setState(() {
+                        _errorMessage =
+                            'Sorry, there appears to be an authentication error.';
+                      });
+                    } on MissingDetailsAuthException {
+                      setState(() {
+                        _errorMessage =
+                            'Oh no, it seems like your email and password are on a vacation!';
+                      });
                     }
 
                     final user = AuthService.firebase().currentUser;
@@ -261,7 +266,24 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10),
 
+                // Error Message
+                if (_errorMessage.isNotEmpty)
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 25),
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        _errorMessage,
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 const SizedBox(height: 10),
 
                 TextButton(

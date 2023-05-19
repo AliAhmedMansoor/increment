@@ -12,6 +12,10 @@ class FirebaseAuthProvider implements AuthProvider {
     required String email,
     required String password,
   }) async {
+    // Added this
+    if (email.isEmpty || password.isEmpty) {
+      throw MissingDetailsAuthException();
+    }
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
@@ -55,11 +59,16 @@ class FirebaseAuthProvider implements AuthProvider {
     required String email,
     required String password,
   }) async {
+    // Added this
+    if (email.isEmpty || password.isEmpty) {
+      throw MissingDetailsAuthException();
+    }
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+
       final user = currentUser;
       if (user != null) {
         return user;

@@ -17,6 +17,7 @@ class _LoginViewState extends State<LoginView> {
   bool _obscureTextToggle = true;
   late final TextEditingController _email;
   late final TextEditingController _password;
+  String _errorMessage = '';
 
   @override
   void initState() {
@@ -173,11 +174,24 @@ class _LoginViewState extends State<LoginView> {
                           );
                         }
                       } on UserNotFoundAuthException {
-                        await showErrorDialog(context, 'User not found');
+                        setState(() {
+                          _errorMessage = 'Oops! The user does not exist.';
+                        });
                       } on WrongPasswordAuthException {
-                        await showErrorDialog(context, 'Wrong credentials');
+                        setState(() {
+                          _errorMessage = 'Uh-oh! The password is invalid.';
+                        });
                       } on GenericAuthException {
-                        await showErrorDialog(context, 'Authentication Error');
+                        // await showErrorDialog(context, 'Authentication Error');
+                        setState(() {
+                          _errorMessage =
+                              'Sorry, there appears to be an authentication error.';
+                        });
+                      } on MissingDetailsAuthException {
+                        setState(() {
+                          _errorMessage =
+                              'Oh no, it seems like your email and password are on a vacation!';
+                        });
                       }
                     },
                     child: const Center(
@@ -191,7 +205,26 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     )),
 
-                const SizedBox(height: 50),
+                const SizedBox(height: 10),
+
+                // Error Message
+                if (_errorMessage.isNotEmpty)
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 25),
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        _errorMessage,
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                const SizedBox(height: 30),
 
 // Divider
                 Padding(

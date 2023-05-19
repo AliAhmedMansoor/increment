@@ -4,7 +4,7 @@ import 'package:incrementapp/constants/routes.dart';
 import 'package:incrementapp/services/auth/auth_service.dart';
 
 class VerifyEmailView extends StatefulWidget {
-  const VerifyEmailView({super.key});
+  const VerifyEmailView({Key? key}) : super(key: key);
 
   @override
   State<VerifyEmailView> createState() => _VerifyEmailViewState();
@@ -21,14 +21,11 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
             child: Column(
               children: [
                 const SizedBox(height: 40),
-
-                // Logo
                 const Icon(
                   Icons.eject_outlined,
                   size: 100,
                   color: Color.fromARGB(255, 251, 251, 251),
                 ),
-
                 const Text(
                   'verify email',
                   style: TextStyle(
@@ -37,20 +34,17 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                     fontWeight: FontWeight.w200,
                   ),
                 ),
-
                 const SizedBox(height: 50),
-
-                const Text("The email has been sent to you.",
-                    style: TextStyle(color: Colors.white)),
-
+                const Text(
+                  "The email has been sent to you.",
+                  style: TextStyle(color: Colors.white),
+                ),
                 const SizedBox(height: 5),
-
-                const Text('In case you havent recieved, tap the button.',
-                    style: TextStyle(color: Colors.white)),
-
+                const Text(
+                  'In case you haven\'t received, tap the button.',
+                  style: TextStyle(color: Colors.white),
+                ),
                 const SizedBox(height: 50),
-
-                // Email Verification Button
                 MyButton(
                   onTap: () async {
                     await AuthService.firebase().sendEmailVerification();
@@ -66,10 +60,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 50),
-
-                // Divider
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Row(
@@ -96,10 +87,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 50),
-
-                // Sign In Instead Button
                 MyButton(
                   onTap: () async {
                     await AuthService.firebase().logOut();
@@ -110,14 +98,32 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                   },
                   color: const Color.fromARGB(255, 186, 231, 179),
                   child: const Center(
-                    child: Text("Sign In",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 21, 21, 21),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        )),
+                    child: Text(
+                      "Sign In",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 21, 21, 21),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
-                )
+                ),
+                const SizedBox(height: 20),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      habitsRoute,
+                      (route) => false,
+                    );
+                  },
+                  child: const Text(
+                    "Not Now",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
