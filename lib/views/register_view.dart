@@ -200,7 +200,24 @@ class _RegisterViewState extends State<RegisterView> {
                   ),
                 ),
 
-                const SizedBox(height: 25),
+// Error Message
+                if (_errorMessage.isNotEmpty)
+                  Center(
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(top: 20, left: 25, right: 25),
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        _errorMessage,
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                const SizedBox(height: 20),
 
                 // Buttons
                 MyButton(
@@ -266,24 +283,6 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
-
-                // Error Message
-                if (_errorMessage.isNotEmpty)
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 25),
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        _errorMessage,
-                        style: const TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
                 const SizedBox(height: 10),
 
                 TextButton(

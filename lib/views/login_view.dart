@@ -3,7 +3,6 @@ import 'package:incrementapp/constants/routes.dart';
 import 'package:incrementapp/services/auth/auth_exceptions.dart';
 import 'package:incrementapp/services/auth/auth_service.dart';
 import '../constants/my_button.dart';
-import '../utilities/show_error_dialog.dart';
 import 'forgot_password_view.dart';
 
 class LoginView extends StatefulWidget {
@@ -146,7 +145,22 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
 
-                const SizedBox(height: 15),
+// Error Message
+                if (_errorMessage.isNotEmpty)
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 15, left: 25, right: 25),
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        _errorMessage,
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
 
 // Sign In Button
                 MyButton(
@@ -205,26 +219,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     )),
 
-                const SizedBox(height: 10),
-
-                // Error Message
-                if (_errorMessage.isNotEmpty)
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 25),
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        _errorMessage,
-                        style: const TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-
-                const SizedBox(height: 30),
+                const SizedBox(height: 50),
 
 // Divider
                 Padding(
