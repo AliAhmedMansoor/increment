@@ -199,23 +199,19 @@ class _TasksPageState extends State<TasksPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: PurpleTheme.primaryColor,
+        color: Color.fromARGB(255, 80, 109, 224),
         child: Column(
           children: [
-            Expanded(
+            const Expanded(
               flex: 1,
-              child: Container(
-                child: Column(
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.only(top: 1.025),
-                      child: Image(
-                        image: NetworkImage(
-                            'https://res.cloudinary.com/dw095oyal/image/upload/w_1000,h_1000,c_limit,q_auto/v1684428601/IMAGE_u5ohjg.png'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ],
+              child: SizedBox(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 1.025),
+                  child: Image(
+                    image: NetworkImage(
+                        'https://res.cloudinary.com/dw095oyal/image/upload/w_1000,h_1000,c_limit,q_auto/v1684428601/IMAGE_u5ohjg.png'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -266,11 +262,12 @@ class _TasksPageState extends State<TasksPage> {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           child: Container(
-                                            color: PurpleTheme.primaryColor,
+                                            color: Color.fromARGB(
+                                                255, 80, 109, 224),
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
-                                              children: const [
+                                              children: [
                                                 Padding(
                                                   padding: EdgeInsets.only(
                                                       right: 16.0),
