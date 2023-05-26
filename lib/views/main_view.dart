@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:incrementapp/constants/custom_drawer.dart';
+import 'package:incrementapp/reusables/custom_drawer.dart';
 import 'package:incrementapp/pages/habits_page.dart';
 import 'package:incrementapp/pages/progress_page.dart';
 import 'package:incrementapp/pages/tasks_page.dart';

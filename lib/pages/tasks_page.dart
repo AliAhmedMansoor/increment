@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-import 'package:incrementapp/constants/app_colours.dart';
+import 'package:incrementapp/reusables/app_colours.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage(

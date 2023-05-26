@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:incrementapp/constants/routes.dart';
-import 'package:incrementapp/services/auth/auth_service.dart';
+import 'package:incrementapp/firebase/auth/auth_service.dart';
+import 'package:incrementapp/reusables/routes.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({required this.name, Key? key}) : super(key: key);

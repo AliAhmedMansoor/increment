@@ -1,4 +1,4 @@
-import 'package:incrementapp/services/auth/auth_user.dart';
+import 'package:incrementapp/firebase/auth/auth_user.dart';
 
 // Abstract Class
 abstract class AuthProvider {

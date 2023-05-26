@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:incrementapp/constants/routes.dart';
-import 'package:incrementapp/services/auth/auth_service.dart';
+import 'package:incrementapp/reusables/routes.dart';
+import 'package:incrementapp/firebase/auth/auth_service.dart';
 import 'package:incrementapp/views/login_view.dart';
 import 'package:incrementapp/views/main_view.dart';
 import 'package:incrementapp/views/register_view.dart';

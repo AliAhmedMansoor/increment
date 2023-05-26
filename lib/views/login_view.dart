@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:incrementapp/constants/routes.dart';
-import 'package:incrementapp/services/auth/auth_exceptions.dart';
-import 'package:incrementapp/services/auth/auth_service.dart';
-import '../constants/my_button.dart';
+import 'package:incrementapp/reusables/my_button.dart';
+import 'package:incrementapp/reusables/routes.dart';
+import 'package:incrementapp/firebase/auth/auth_exceptions.dart';
+import 'package:incrementapp/firebase/auth/auth_service.dart';
 import 'forgot_password_view.dart';
 
 class LoginView extends StatefulWidget {

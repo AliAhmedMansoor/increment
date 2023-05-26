@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:incrementapp/constants/my_button.dart';
-import 'package:incrementapp/constants/routes.dart';
-import 'package:incrementapp/services/auth/auth_service.dart';
+import 'package:incrementapp/reusables/my_button.dart';
+import 'package:incrementapp/reusables/routes.dart';
+import 'package:incrementapp/firebase/auth/auth_service.dart';
 
 class VerifyEmailView extends StatefulWidget {
   const VerifyEmailView({Key? key}) : super(key: key);
