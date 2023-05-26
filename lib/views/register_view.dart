@@ -4,7 +4,6 @@ import 'package:incrementapp/constants/my_button.dart';
 import 'package:incrementapp/constants/routes.dart';
 import 'package:incrementapp/services/auth/auth_exceptions.dart';
 import 'package:incrementapp/services/auth/auth_service.dart';
-import '../utilities/show_error_dialog.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -256,7 +255,6 @@ class _RegisterViewState extends State<RegisterView> {
                         _errorMessage = 'Uh-oh! The email syntax is invalid.';
                       });
                     } on GenericAuthException {
-                      // await showErrorDialog(context, 'Authentication Error');
                       setState(() {
                         _errorMessage =
                             'Sorry, there appears to be an authentication error.';

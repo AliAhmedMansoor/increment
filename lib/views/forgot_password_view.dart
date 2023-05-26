@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../constants/my_button.dart';
-import '../utilities/show_error_dialog.dart';
 
 class ForgotPasswordView extends StatefulWidget {
   const ForgotPasswordView({super.key});
@@ -25,13 +24,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
     try {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: _email.text.trim());
-      // showDialog(
-      //     context: context,
-      //     builder: (context) {
-      //       return const AlertDialog(
-      //         content: Text('Password reset link has been sent to you'),
-      //       );
-      //     });
       setState(() {
         _message =
             'The password reset email has been sent to you! Please check your inbox or spam. :)';
