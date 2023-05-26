@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:incrementapp/constants/app_colours.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage(
@@ -63,7 +64,7 @@ class _TasksPageState extends State<TasksPage> {
         Container(
           decoration: BoxDecoration(
             color: user.isChecked
-                ? Color.fromARGB(255, 47, 45, 66)
+                ? PurpleTheme.isChecked
                 : const Color.fromARGB(255, 40, 46, 55),
             borderRadius: BorderRadius.circular(15),
           ),
@@ -75,8 +76,8 @@ class _TasksPageState extends State<TasksPage> {
                 child: Checkbox(
                   fillColor: MaterialStateProperty.resolveWith((states) {
                     if (states.contains(MaterialState.selected)) {
-                      return const Color.fromARGB(
-                          255, 80, 109, 224); // When checkbox is checked
+                      return PurpleTheme
+                          .primaryColor; // When checkbox is checked
                     } else {
                       return const Color.fromARGB(
                           255, 197, 197, 197); // When checkbox is unchecked
@@ -198,7 +199,7 @@ class _TasksPageState extends State<TasksPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Color.fromARGB(255, 80, 109, 224),
+        color: PurpleTheme.primaryColor,
         child: Column(
           children: [
             Expanded(
@@ -221,7 +222,7 @@ class _TasksPageState extends State<TasksPage> {
             Expanded(
               flex: 2,
               child: Container(
-                width: 400,
+                // width: 400,
                 decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 28, 33, 41),
                     borderRadius: BorderRadius.only(
@@ -265,8 +266,7 @@ class _TasksPageState extends State<TasksPage> {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           child: Container(
-                                            color: Color.fromARGB(
-                                                255, 80, 109, 224),
+                                            color: PurpleTheme.primaryColor,
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
@@ -317,7 +317,7 @@ class _TasksPageState extends State<TasksPage> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 80, 109, 224),
+                            color: PurpleTheme.primaryColor,
                             width: 2.0,
                           ),
                         ),
@@ -331,7 +331,7 @@ class _TasksPageState extends State<TasksPage> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 80, 109, 224),
+                            color: PurpleTheme.primaryColor,
                             width: 2.0,
                           ),
                         ),
@@ -351,7 +351,7 @@ class _TasksPageState extends State<TasksPage> {
                         controller.clear();
                         _focusNode.unfocus();
                       },
-                      backgroundColor: const Color.fromARGB(255, 80, 109, 224),
+                      backgroundColor: PurpleTheme.primaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
