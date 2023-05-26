@@ -5,17 +5,14 @@ import 'package:incrementapp/views/login_view.dart';
 import 'package:incrementapp/views/main_view.dart';
 import 'package:incrementapp/views/register_view.dart';
 import 'package:incrementapp/views/verify_email_view.dart';
-///alimansoor7897892@gmail.com
-///aGoodpassword
+
 void main() async {
-  // SHAHUM: Learn about Widget Binding
+  // Learn about Widget Binding - SHAHUM
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(MaterialApp(
     title: 'increment',
-    theme: ThemeData(
-      primaryColor: Colors.red,
-    ),
+    theme: ThemeData.dark(),
     home: const HomePage(),
     routes: {
       loginRoute: (context) => const LoginView(),

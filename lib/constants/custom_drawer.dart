@@ -6,6 +6,7 @@ class CustomDrawer extends StatelessWidget {
   const CustomDrawer({required this.name, Key? key}) : super(key: key);
 
   final String? name;
+  final bool _darkMode = false;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class CustomDrawer extends StatelessWidget {
         height: 480,
         child: Drawer(
           backgroundColor: const Color.fromARGB(255, 26, 26, 26),
-          width: 200,
+          width: 210,
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -37,7 +38,7 @@ class CustomDrawer extends StatelessWidget {
                       const SizedBox(height: 15),
                       Text(
                         name ?? "",
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.w300,
                           color: Colors.white,
@@ -63,7 +64,10 @@ class CustomDrawer extends StatelessWidget {
                     style: TextStyle(color: Colors.white),
                   ),
                   leading: const Icon(Icons.dark_mode, color: Colors.white),
-                  onTap: () {},
+                  trailing: Switch(
+                    value: _darkMode,
+                    onChanged: (newSwitchValue) {},
+                  ),
                 ),
                 ListTile(
                   title: const Text(

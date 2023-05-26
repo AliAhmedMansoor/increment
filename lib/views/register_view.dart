@@ -81,7 +81,6 @@ class _RegisterViewState extends State<RegisterView> {
                     controller: _name,
                     enableSuggestions: false,
                     autocorrect: false,
-                    keyboardType: TextInputType.emailAddress,
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
                       hintText: 'Name',
@@ -228,7 +227,9 @@ class _RegisterViewState extends State<RegisterView> {
 
                     // Confirming Password
                     if (password != confirmPassword) {
-                      await showErrorDialog(context, 'Passwords do not match.');
+                      setState(() {
+                        _errorMessage = 'Passwords are not identical twins.';
+                      });
                       return;
                     }
 

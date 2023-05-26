@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +56,19 @@ class _TasksPageState extends State<TasksPage> {
   final confettiController = ConfettiController();
   bool hasConfettiPlayed = false;
   // For closing keyboard
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
+
+  // Array of random quotes
+  List<String> quotes = [
+    "\"The secret to getting ahead is getting started.\" ― Mark Twain",
+    "\"Don't watch the clock; do what it does. Keep going.\" ― Sam Levenson",
+    "\"The only way to do great work is to love what you do.\" ― Steve Jobs",
+    "\"Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful.\" ― Albert Schweitzer",
+    "\"The future depends on what you do today.\" ―  Mahatma Gandhi",
+    "\"With faith, discipline and selfless devotion to duty, there is nothing worthwhile that you cannot achieve.\" ― Muhammad Ali Jinnah",
+    "\"Be the change that you wish to see in the world.\" ― Mahatma Gandhi",
+  ];
+  Random random = Random();
 
   // Adding Tasks (Task Tile)
   Widget buildUser(Users user, Function() onChanged) =>
@@ -199,7 +211,7 @@ class _TasksPageState extends State<TasksPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Color.fromARGB(255, 80, 109, 224),
+        color: const Color.fromARGB(255, 80, 109, 224),
         child: Column(
           children: [
             const Expanded(
@@ -233,11 +245,21 @@ class _TasksPageState extends State<TasksPage> {
                     } else if (snapshot.hasData) {
                       final users = snapshot.data!;
                       return users.isEmpty
-                          ? const Center(
-                              child: Text(
-                                'Get to work, you lazy bum!',
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 205, 205, 205),
+                          ? Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 50.0),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    // Random Quotes
+                                    quotes[random.nextInt(quotes.length)],
+                                    style: const TextStyle(
+                                      height: 1.5,
+                                      fontSize: 16,
+                                      color: Color.fromARGB(255, 165, 185, 213),
+                                    ),
+                                  ),
                                 ),
                               ),
                             )
@@ -262,12 +284,12 @@ class _TasksPageState extends State<TasksPage> {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           child: Container(
-                                            color: Color.fromARGB(
+                                            color: const Color.fromARGB(
                                                 255, 80, 109, 224),
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
-                                              children: [
+                                              children: const [
                                                 Padding(
                                                   padding: EdgeInsets.only(
                                                       right: 16.0),
