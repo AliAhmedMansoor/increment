@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:incrementapp/reusables/app_colours.dart';
 import 'package:incrementapp/reusables/custom_drawer.dart';
 import 'package:incrementapp/pages/habits_page.dart';
 import 'package:incrementapp/pages/progress_page.dart';
@@ -63,9 +64,9 @@ class _MainViewState extends State<MainView> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
-        backgroundColor: const Color.fromARGB(255, 28, 33, 41),
-        unselectedItemColor: const Color.fromARGB(255, 106, 120, 143),
-        selectedItemColor: const Color.fromARGB(255, 116, 143, 249),
+        backgroundColor: const Color.fromARGB(255, 22, 22, 22),
+        unselectedItemColor: const Color.fromARGB(255, 136, 136, 136),
+        selectedItemColor: PurpleTheme.primaryColor,
         currentIndex: widget.currentIndex,
         onTap: (index) {
           setState(() {
@@ -82,7 +83,7 @@ class _MainViewState extends State<MainView> {
       ),
       drawer: CustomDrawer(name: fetchedName),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 80, 109, 224),
+        backgroundColor: PurpleTheme.primaryColor,
         leading: Builder(
           builder: (context) => IconButton(
             icon: const Icon(Icons.circle_outlined),
@@ -92,7 +93,7 @@ class _MainViewState extends State<MainView> {
           ),
         ),
         elevation: 0,
-        title: Text('Hey, $fetchedName!'),
+        title: Text('Howdy, $fetchedName!'),
       ),
     );
   }

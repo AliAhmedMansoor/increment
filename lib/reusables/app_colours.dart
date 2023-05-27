@@ -5,7 +5,7 @@ class RedTheme {
 }
 
 class PurpleTheme {
-  static const primaryColor = Color.fromARGB(255, 80, 109, 224);
+  static const primaryColor = Color.fromARGB(255, 99, 148, 109);
   static const isChecked = Color.fromARGB(255, 36, 42, 69);
 }
 

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:html';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:confetti/confetti.dart';
@@ -82,20 +83,21 @@ class _TasksPageState extends State<TasksPage> {
         Container(
           decoration: BoxDecoration(
             color: user.isChecked
-                ? PurpleTheme.isChecked
-                : const Color.fromARGB(255, 40, 46, 55),
+                ? const Color.fromARGB(232, 30, 30, 30)
+                : const Color.fromARGB(255, 34, 34, 34),
             borderRadius: BorderRadius.circular(15),
           ),
           child: ListTile(
             trailing: Transform.scale(
-              scale: 1.29,
+              scale: 1.4,
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 child: Checkbox(
+                  checkColor: const Color.fromARGB(255, 128, 197, 142),
                   fillColor: MaterialStateProperty.resolveWith((states) {
                     if (states.contains(MaterialState.selected)) {
-                      return PurpleTheme
-                          .primaryColor; // When checkbox is checked
+                      return const Color.fromARGB(
+                          232, 30, 30, 30); // When checkbox is checked
                     } else {
                       return const Color.fromARGB(
                           255, 197, 197, 197); // When checkbox is unchecked
@@ -129,10 +131,16 @@ class _TasksPageState extends State<TasksPage> {
               user.task,
               style: user.isChecked
                   ? const TextStyle(
-                      color: Color.fromARGB(255, 139, 148, 172),
+                      color: Color.fromARGB(255, 144, 144, 144),
                       decoration: TextDecoration.lineThrough,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
                     )
-                  : const TextStyle(color: Colors.white),
+                  : const TextStyle(
+                      color: Color.fromARGB(255, 242, 242, 242),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                    ),
             ),
           ),
         ),
@@ -219,7 +227,7 @@ class _TasksPageState extends State<TasksPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: const Color.fromARGB(255, 80, 109, 224),
+        color: PurpleTheme.primaryColor,
         child: Column(
           children: [
             const Expanded(
@@ -239,7 +247,7 @@ class _TasksPageState extends State<TasksPage> {
               flex: 2,
               child: Container(
                 decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 28, 33, 41),
+                    color: Color.fromARGB(255, 22, 22, 22),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(24),
                       topRight: Radius.circular(24),
@@ -279,7 +287,7 @@ class _TasksPageState extends State<TasksPage> {
                                   return Container(
                                       margin: const EdgeInsets.symmetric(
                                         horizontal: 20,
-                                        vertical: 10,
+                                        vertical: 7,
                                       ),
                                       child: Dismissible(
                                         key: Key(user.taskId),
@@ -291,8 +299,7 @@ class _TasksPageState extends State<TasksPage> {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           child: Container(
-                                            color: const Color.fromARGB(
-                                                255, 80, 109, 224),
+                                            color: PurpleTheme.primaryColor,
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
@@ -326,7 +333,7 @@ class _TasksPageState extends State<TasksPage> {
               ),
             ),
             Container(
-              color: const Color.fromARGB(255, 28, 33, 41),
+              color: const Color.fromARGB(255, 22, 22, 22),
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               child: Row(
                 children: [
