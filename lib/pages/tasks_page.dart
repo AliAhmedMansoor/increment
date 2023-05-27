@@ -22,29 +22,35 @@ class Users {
   String taskId;
   String task;
   bool isChecked;
+  DateTime time;
 
   Users({
     this.taskId = '',
     required this.task,
     required this.name,
     this.isChecked = false,
+    required this.time,
   });
 
-// Writing
+  // Writing
   Map<String, dynamic> toJson() => {
         'name': name,
         'taskId': taskId,
         'task': task,
         'isChecked': isChecked,
+        'time': Timestamp.fromDate(time),
       };
 
-// Reading
-  static Users fromJson(Map<String, dynamic> json) => Users(
-        name: json['name'],
-        taskId: json['taskId'],
-        task: json['task'],
-        isChecked: json['isChecked'],
-      );
+  // Reading
+  static Users fromJson(Map<String, dynamic> json) {
+    return Users(
+      name: json['name'],
+      taskId: json['taskId'],
+      task: json['task'],
+      isChecked: json['isChecked'],
+      time: (json['time'] as Timestamp).toDate(),
+    );
+  }
 
   void toggleChecked() {
     isChecked = !isChecked;
@@ -57,8 +63,9 @@ class _TasksPageState extends State<TasksPage> {
   bool hasConfettiPlayed = false;
   // For closing keyboard
   final FocusNode _focusNode = FocusNode();
+  List<Users> usersList = [];
 
-  // Array of random quotes
+  // Random Quotes
   List<String> quotes = [
     "\"The secret to getting ahead is getting started.\" ― Mark Twain",
     "\"Don't watch the clock; do what it does. Keep going.\" ― Sam Levenson",
@@ -137,7 +144,7 @@ class _TasksPageState extends State<TasksPage> {
               confettiController: confettiController,
               blastDirectionality: BlastDirectionality.explosive,
               emissionFrequency: 0,
-              gravity: 0.5,
+              gravity: 0.8,
               maxBlastForce: 30,
               numberOfParticles: 10,
               shouldLoop: false,
@@ -173,6 +180,7 @@ class _TasksPageState extends State<TasksPage> {
   Stream<List<Users>> readTask() {
     return FirebaseFirestore.instance
         .collection('users')
+        .orderBy('time', descending: true)
         .where('name', isEqualTo: widget.fetchedUuid)
         .snapshots()
         .map((querySnapshot) {
@@ -195,6 +203,7 @@ class _TasksPageState extends State<TasksPage> {
       name: widget.fetchedUuid!,
       taskId: docUser.id,
       task: task,
+      time: DateTime.now(),
     );
     final json = user.toJson();
 
@@ -230,7 +239,6 @@ class _TasksPageState extends State<TasksPage> {
             Expanded(
               flex: 2,
               child: Container(
-                // width: 400,
                 decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 28, 33, 41),
                     borderRadius: BorderRadius.only(
@@ -312,7 +320,8 @@ class _TasksPageState extends State<TasksPage> {
                               ),
                             );
                     } else {
-                      return const Center(child: CircularProgressIndicator());
+                      // return const Center(child: CircularProgressIndicator());
+                      return const SizedBox();
                     }
                   },
                 ),
@@ -325,7 +334,7 @@ class _TasksPageState extends State<TasksPage> {
                 children: [
                   Expanded(
                     child: TextField(
-                      focusNode: _focusNode, // Closing Keyboard
+                      focusNode: _focusNode,
                       controller: controller,
                       style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
