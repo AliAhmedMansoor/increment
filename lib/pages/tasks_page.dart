@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:html';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:confetti/confetti.dart';
@@ -272,7 +271,7 @@ class _TasksPageState extends State<TasksPage> {
                                     style: const TextStyle(
                                       height: 1.5,
                                       fontSize: 16,
-                                      color: Color.fromARGB(255, 165, 185, 213),
+                                      color: Color.fromARGB(255, 145, 177, 152),
                                     ),
                                   ),
                                 ),
