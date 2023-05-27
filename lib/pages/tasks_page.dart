@@ -63,7 +63,6 @@ class _TasksPageState extends State<TasksPage> {
   bool hasConfettiPlayed = false;
   // For closing keyboard
   final FocusNode _focusNode = FocusNode();
-  List<Users> usersList = [];
 
   // Random Quotes
   List<String> quotes = [
@@ -320,8 +319,7 @@ class _TasksPageState extends State<TasksPage> {
                               ),
                             );
                     } else {
-                      // return const Center(child: CircularProgressIndicator());
-                      return const SizedBox();
+                      return const Center(child: CircularProgressIndicator());
                     }
                   },
                 ),
