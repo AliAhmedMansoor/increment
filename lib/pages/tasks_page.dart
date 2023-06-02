@@ -7,11 +7,15 @@ import 'package:incrementapp/reusables/app_colours.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage(
-      {required this.fetchedName, required this.fetchedUuid, Key? key})
+      {required this.fetchedName,
+      required this.fetchedUuid,
+      Key? key,
+      required this.updateAppBarText})
       : super(key: key);
 
   final String? fetchedName;
   final String? fetchedUuid;
+  final Function(String) updateAppBarText;
 
   @override
   State<TasksPage> createState() => _TasksPageState();
@@ -57,24 +61,26 @@ class Users {
   }
 }
 
+// Random Quotes
+List<String> quotes = [
+  "\"The secret to getting ahead is getting started.\" ― Mark Twain",
+  "\"Don't watch the clock; do what it does. Keep going.\" ― Sam Levenson",
+  "\"The only way to do great work is to love what you do.\" ― Steve Jobs",
+  "\"Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful.\" ― Albert Schweitzer",
+  "\"The future depends on what you do today.\" ―  Mahatma Gandhi",
+  "\"With faith, discipline and selfless devotion to duty, there is nothing worthwhile that you cannot achieve.\" ― Muhammad Ali Jinnah",
+  "\"Be the change that you wish to see in the world.\" ― Mahatma Gandhi",
+];
+Random random = Random();
+
 class _TasksPageState extends State<TasksPage> {
   final controller = TextEditingController();
   final confettiController = ConfettiController();
   bool hasConfettiPlayed = false;
   // For closing keyboard
   final FocusNode _focusNode = FocusNode();
-
-  // Random Quotes
-  List<String> quotes = [
-    "\"The secret to getting ahead is getting started.\" ― Mark Twain",
-    "\"Don't watch the clock; do what it does. Keep going.\" ― Sam Levenson",
-    "\"The only way to do great work is to love what you do.\" ― Steve Jobs",
-    "\"Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful.\" ― Albert Schweitzer",
-    "\"The future depends on what you do today.\" ―  Mahatma Gandhi",
-    "\"With faith, discipline and selfless devotion to duty, there is nothing worthwhile that you cannot achieve.\" ― Muhammad Ali Jinnah",
-    "\"Be the change that you wish to see in the world.\" ― Mahatma Gandhi",
-  ];
-  Random random = Random();
+  int tasksCount = 0;
+  bool _isDelayCompleted = false;
 
   // Adding Tasks (Task Tile)
   Widget buildUser(Users user, Function() onChanged) =>
@@ -92,7 +98,7 @@ class _TasksPageState extends State<TasksPage> {
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 child: Checkbox(
-                  checkColor: const Color.fromARGB(255, 128, 197, 142),
+                  checkColor: const Color.fromARGB(255, 228, 167, 197),
                   fillColor: MaterialStateProperty.resolveWith((states) {
                     if (states.contains(MaterialState.selected)) {
                       return const Color.fromARGB(
@@ -109,6 +115,7 @@ class _TasksPageState extends State<TasksPage> {
                       if (user.isChecked && !hasConfettiPlayed) {
                         confettiController.play();
                         hasConfettiPlayed = true;
+                        widget.updateAppBarText('Woohoo!');
                         // Start the timer for 2 seconds
                         Timer(const Duration(seconds: 1), () {
                           confettiController.stop();
@@ -151,7 +158,7 @@ class _TasksPageState extends State<TasksPage> {
               blastDirectionality: BlastDirectionality.explosive,
               emissionFrequency: 0,
               gravity: 0.8,
-              maxBlastForce: 30,
+              maxBlastForce: 50,
               numberOfParticles: 10,
               shouldLoop: false,
               colors: const [
@@ -164,9 +171,19 @@ class _TasksPageState extends State<TasksPage> {
           ),
       ]);
 
+  String selectedQuote = '';
+
   @override
   void initState() {
     super.initState();
+    // Delay Timer
+    Timer(const Duration(seconds: 1), () {
+      setState(() {
+        _isDelayCompleted = true;
+      });
+    });
+    // Random Quote
+    selectedQuote = getRandomQuote();
     confettiController.addListener(() {
       if (confettiController.state == ConfettiControllerState.stopped) {
         setState(() {
@@ -174,6 +191,10 @@ class _TasksPageState extends State<TasksPage> {
         });
       }
     });
+  }
+
+  String getRandomQuote() {
+    return quotes[random.nextInt(quotes.length)];
   }
 
   @override
@@ -190,9 +211,24 @@ class _TasksPageState extends State<TasksPage> {
         .where('name', isEqualTo: widget.fetchedUuid)
         .snapshots()
         .map((querySnapshot) {
-      return querySnapshot.docs.map((docSnapshot) {
-        return Users.fromJson(docSnapshot.data());
+      int count = 0;
+      final List<Users> users = querySnapshot.docs.map((docSnapshot) {
+        final user = Users.fromJson(docSnapshot.data());
+        if (!user.isChecked) {
+          count++; // Unchecked tasks count
+        }
+        return user;
       }).toList();
+
+      setState(() {
+        if (!_isDelayCompleted) {
+          tasksCount = 0;
+        } else {
+          tasksCount = count;
+        }
+      });
+
+      return users;
     });
   }
 
@@ -225,19 +261,35 @@ class _TasksPageState extends State<TasksPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: PurpleTheme.primaryColor,
+        body: Stack(children: [
+      Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 109, 81, 165),
+              Color.fromARGB(255, 228, 167, 197)
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.center,
+          ),
+        ),
+      ),
+      SafeArea(
         child: Column(
           children: [
-            const Expanded(
+            Expanded(
               flex: 1,
-              child: SizedBox(
+              child: Center(
                 child: Padding(
-                  padding: EdgeInsets.only(top: 1.025),
-                  child: Image(
-                    image: NetworkImage(
-                        'https://res.cloudinary.com/dw095oyal/image/upload/w_1000,h_1000,c_limit,q_auto/v1684428601/IMAGE_u5ohjg.png'),
-                    fit: BoxFit.cover,
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Text(
+                    '$tasksCount',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 60,
+                      color: Color.fromARGB(192, 255, 255, 255),
+                    ),
                   ),
                 ),
               ),
@@ -246,18 +298,22 @@ class _TasksPageState extends State<TasksPage> {
               flex: 2,
               child: Container(
                 decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 22, 22, 22),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(24),
-                      topRight: Radius.circular(24),
-                    )),
+                  color: Color.fromARGB(255, 22, 22, 22),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
+                  ),
+                ),
                 child: StreamBuilder<List<Users>>(
                   stream: readTask(),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return const Center(child: CircularProgressIndicator());
+                    } else if (_isDelayCompleted == false) {
+                      return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasData) {
                       final users = snapshot.data!;
+
                       return users.isEmpty
                           ? Center(
                               child: Padding(
@@ -267,11 +323,12 @@ class _TasksPageState extends State<TasksPage> {
                                   alignment: Alignment.center,
                                   child: Text(
                                     // Random Quotes
-                                    quotes[random.nextInt(quotes.length)],
+                                    selectedQuote,
+
                                     style: const TextStyle(
                                       height: 1.5,
                                       fontSize: 16,
-                                      color: Color.fromARGB(255, 145, 177, 152),
+                                      color: Color.fromARGB(255, 228, 167, 197),
                                     ),
                                   ),
                                 ),
@@ -298,7 +355,18 @@ class _TasksPageState extends State<TasksPage> {
                                           borderRadius:
                                               BorderRadius.circular(15),
                                           child: Container(
-                                            color: PurpleTheme.primaryColor,
+                                            decoration: const BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  Color.fromARGB(
+                                                      255, 168, 71, 71),
+                                                  Color.fromARGB(
+                                                      255, 222, 133, 133)
+                                                ],
+                                                begin: Alignment.centerRight,
+                                                end: Alignment.centerLeft,
+                                              ),
+                                            ),
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
@@ -333,7 +401,7 @@ class _TasksPageState extends State<TasksPage> {
             ),
             Container(
               color: const Color.fromARGB(255, 22, 22, 22),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Row(
                 children: [
                   Expanded(
@@ -363,7 +431,7 @@ class _TasksPageState extends State<TasksPage> {
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: const BorderSide(
-                            color: PurpleTheme.primaryColor,
+                            color: Color.fromARGB(255, 128, 101, 183),
                             width: 2.0,
                           ),
                         ),
@@ -383,7 +451,7 @@ class _TasksPageState extends State<TasksPage> {
                         controller.clear();
                         _focusNode.unfocus();
                       },
-                      backgroundColor: PurpleTheme.primaryColor,
+                      backgroundColor: const Color.fromARGB(255, 128, 101, 183),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -391,7 +459,8 @@ class _TasksPageState extends State<TasksPage> {
                       child: const Text(
                         'increment',
                         style: TextStyle(
-                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          color: Color.fromARGB(255, 240, 240, 240),
                         ),
                       ),
                     ),
@@ -402,6 +471,6 @@ class _TasksPageState extends State<TasksPage> {
           ],
         ),
       ),
-    );
+    ]));
   }
 }

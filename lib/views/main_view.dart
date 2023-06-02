@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,20 @@ class _MainViewState extends State<MainView> {
   final firestoreInstance = FirebaseFirestore.instance;
   String? fetchedName;
   String? fetchedUuid;
+  String? appBarText;
+
+  void updateAppBarText(String newText) {
+    setState(() {
+      appBarText = newText;
+    });
+
+    // Revert back to the original text after 2 seconds
+    Timer(const Duration(seconds: 1), () {
+      setState(() {
+        appBarText = '$fetchedName';
+      });
+    });
+  }
 
   @override
   void initState() {
@@ -42,21 +58,27 @@ class _MainViewState extends State<MainView> {
           setState(() {
             fetchedName = name;
             fetchedUuid = uuid;
+            appBarText = '$fetchedName';
           });
         }
       });
     }
+
+    appBarText = '$fetchedName';
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       body: IndexedStack(
         index: widget.currentIndex,
         children: [
           TasksPage(
             fetchedName: fetchedName,
             fetchedUuid: fetchedUuid,
+            updateAppBarText:
+                updateAppBarText, // Pass the callback function here
           ),
           const HabitsPage(),
           const ProgressPage(),
@@ -66,7 +88,7 @@ class _MainViewState extends State<MainView> {
         elevation: 0,
         backgroundColor: const Color.fromARGB(255, 22, 22, 22),
         unselectedItemColor: const Color.fromARGB(255, 136, 136, 136),
-        selectedItemColor: PurpleTheme.primaryColor,
+        selectedItemColor: Color.fromARGB(255, 133, 105, 187),
         currentIndex: widget.currentIndex,
         onTap: (index) {
           setState(() {
@@ -74,16 +96,14 @@ class _MainViewState extends State<MainView> {
           });
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Tasks'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today), label: 'Habits'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.timeline), label: 'Progress'),
+          BottomNavigationBarItem(icon: Icon(Icons.task), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.timeline), label: ''),
         ],
       ),
       drawer: CustomDrawer(name: fetchedName),
       appBar: AppBar(
-        backgroundColor: PurpleTheme.primaryColor,
+        backgroundColor: Colors.transparent,
         leading: Builder(
           builder: (context) => IconButton(
             icon: const Icon(Icons.circle_outlined),
@@ -93,7 +113,7 @@ class _MainViewState extends State<MainView> {
           ),
         ),
         elevation: 0,
-        title: Text('Howdy, $fetchedName!'),
+        title: Text('$appBarText'),
       ),
     );
   }
