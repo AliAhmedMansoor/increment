@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:incrementapp/reusables/app_colours.dart';
 import 'package:incrementapp/reusables/custom_drawer.dart';
 import 'package:incrementapp/pages/habits_page.dart';
 import 'package:incrementapp/pages/progress_page.dart';
@@ -77,8 +76,7 @@ class _MainViewState extends State<MainView> {
           TasksPage(
             fetchedName: fetchedName,
             fetchedUuid: fetchedUuid,
-            updateAppBarText:
-                updateAppBarText, // Pass the callback function here
+            updateAppBarText: updateAppBarText, // Passing the callback function
           ),
           const HabitsPage(),
           const ProgressPage(),
@@ -88,7 +86,7 @@ class _MainViewState extends State<MainView> {
         elevation: 0,
         backgroundColor: const Color.fromARGB(255, 22, 22, 22),
         unselectedItemColor: const Color.fromARGB(255, 136, 136, 136),
-        selectedItemColor: Color.fromARGB(255, 133, 105, 187),
+        selectedItemColor: const Color.fromARGB(255, 133, 105, 187),
         currentIndex: widget.currentIndex,
         onTap: (index) {
           setState(() {

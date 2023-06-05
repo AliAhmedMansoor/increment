@@ -66,10 +66,6 @@ List<String> quotes = [
   "\"The secret to getting ahead is getting started.\" ― Mark Twain",
   "\"Don't watch the clock; do what it does. Keep going.\" ― Sam Levenson",
   "\"The only way to do great work is to love what you do.\" ― Steve Jobs",
-  "\"Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful.\" ― Albert Schweitzer",
-  "\"The future depends on what you do today.\" ―  Mahatma Gandhi",
-  "\"With faith, discipline and selfless devotion to duty, there is nothing worthwhile that you cannot achieve.\" ― Muhammad Ali Jinnah",
-  "\"Be the change that you wish to see in the world.\" ― Mahatma Gandhi",
 ];
 Random random = Random();
 
@@ -310,7 +306,10 @@ class _TasksPageState extends State<TasksPage> {
                     if (snapshot.hasError) {
                       return const Center(child: CircularProgressIndicator());
                     } else if (_isDelayCompleted == false) {
-                      return const Center(child: CircularProgressIndicator());
+                      return const Center(
+                          child: CircularProgressIndicator(
+                        color: Color.fromARGB(255, 228, 167, 197),
+                      ));
                     } else if (snapshot.hasData) {
                       final users = snapshot.data!;
 
