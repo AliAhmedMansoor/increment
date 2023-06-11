@@ -42,6 +42,13 @@ dependencies:
   sqflite: ^2.2.8+2
   path_provider: ^2.0.15
   path: ^1.8.2
+  shared_preferences: ^2.1.2
+  page_transition: ^2.0.9
+  animated_clipper: ^0.2.0+2
+  list_wheel_scroll_view_nls: ^0.0.3
+  stop_watch_timer: ^2.0.0
+  simple_animation_progress_bar: ^1.6.0
+  animations: ^2.0.7
   confetti: ^0.7.0
 
 dev_dependencies:

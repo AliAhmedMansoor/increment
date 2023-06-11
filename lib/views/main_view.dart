@@ -5,9 +5,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:incrementapp/reusables/custom_drawer.dart';
-import 'package:incrementapp/pages/habits_page.dart';
+import 'package:incrementapp/pages/habitsFolder/habits_page.dart';
 import 'package:incrementapp/pages/progress_page.dart';
 import 'package:incrementapp/pages/tasks_page.dart';
+import 'package:incrementapp/main.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:incrementapp/pages/habitsFolder/alarmSettings.dart';
 
 // User Greeting Method and Date ----------
 var hour = DateTime.now().hour;
@@ -43,13 +46,20 @@ class _MainViewState extends State<MainView> {
   String? fetchedUuid;
   String? appBarText;
   bool isProgressPage = false;
+  static const IconData iconBeforeTap=Icons.calendar_today;
+  static const IconData iconAfterTap=Icons.add_box_rounded;
+  IconData currentIcon=iconBeforeTap;
+  late Animation<double> primAnimation;
+  late Animation<double> secAnimation;
+  late AnimationController animationController;
+  late AnimationController secondaryAnimationController;
 
   void updateAppBarText(String newText) {
     setState(() {
       appBarText = newText;
     });
 
-    // Revert back to the original text after 2 seconds
+    //Revert back to the original text after 2 seconds
     Timer(const Duration(seconds: 1), () {
       setState(() {
         appBarText = getGreeting(hour);
@@ -109,6 +119,23 @@ class _MainViewState extends State<MainView> {
         currentIndex: widget.currentIndex,
         onTap: (index) {
           setState(() {
+            if( index==1 && currentIcon==iconAfterTap && preferences.getStringList("habitName")!.length<3) {
+              Navigator.push(context,PageTransition(
+                  child: const HabitSettings(),
+                  type: PageTransitionType.fade,
+                  curve: Curves.fastOutSlowIn,
+                  reverseDuration: const Duration(milliseconds: 250),
+                  duration: const Duration(milliseconds: 250)
+              ));
+            }
+            else {
+
+                widget.currentIndex = index;
+                currentIcon =
+                (index == 0 || index == 2) ? iconBeforeTap : iconAfterTap;
+
+
+            }
             widget.currentIndex = index;
             isProgressPage =
                 index == 2; // Changing App Bar Text If on Progress Page
