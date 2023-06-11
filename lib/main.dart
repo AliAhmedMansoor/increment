@@ -7,6 +7,49 @@ import 'package:incrementapp/views/main_view.dart';
 import 'package:incrementapp/views/register_view.dart';
 import 'package:incrementapp/views/settings_view.dart';
 import 'package:incrementapp/views/verify_email_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+String initialRoute=habitsRoute;
+late final SharedPreferences preferences;
+late List<String> habitName;
+late int habitStartTime;
+late String habitDuration;
+void setUpPreferences(){
+
+  String key;
+  for(int i=1;i<4;i++)
+  {
+    key='routine$i';
+    if(preferences.getStringList(key)==null) {
+      preferences.setStringList(key, List.filled(7,''));
+    }
+
+  }
+  for(int i=1;i<4;i++)
+  {
+    key='habitStart$i';
+    if(preferences.getStringList(key)==null){
+      preferences.setStringList(key,List.from(['1','0'],growable: false));
+    }
+  }
+  for(int i=1;i<4;i++)
+  {
+    key='habitDuration$i';
+    if(preferences.getStringList(key)==null){
+      preferences.setStringList(key,List.from(['0','1'],growable: false));
+    }
+  }
+  if(preferences.getStringList('habitName')==null){
+    preferences.setStringList('habitName', List.empty(growable: true));
+  }
+
+}
+
+
+
+
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +59,10 @@ void main() async {
   ]);
   // Learn about Widget Binding - SHAHUM
   WidgetsFlutterBinding.ensureInitialized();
+
+  preferences = await SharedPreferences.getInstance();
+  preferences.clear();
+  setUpPreferences();
 
   runApp(MaterialApp(
     title: 'increment',

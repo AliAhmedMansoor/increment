@@ -188,7 +188,7 @@ class _TasksPageState extends State<TasksPage> {
   @override
   void initState() {
     super.initState();
-    // Delay Timer
+    //Delay Timer
     Timer(const Duration(milliseconds: 1500), () {
       setState(() {
         _isDelayCompleted = true;
