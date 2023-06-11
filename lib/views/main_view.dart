@@ -20,7 +20,7 @@ String getGreeting(int hour) {
   } else if (hour > 18 && hour < 22) {
     return 'Good Evening';
   } else {
-    return 'Plan Ahead!';
+    return 'Plan Ahead';
   }
 }
 

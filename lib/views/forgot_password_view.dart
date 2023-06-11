@@ -109,119 +109,125 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
-      body: AnimatedBuilder(
-          animation: _controller,
-          builder: (context, _) {
-            return Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: const [
-                    Colours.gradient1,
-                    Colours.gradient2,
-                  ],
-                  begin: _topAlignmentAnimation.value,
-                  end: _bottomAlignmentAnimation.value,
-                ),
-              ),
-              child: SafeArea(
-                child: Center(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 40),
-
-                      const Text(
-                        'reset password',
-                        style: TextStyle(
-                          color: Colours.heading,
-                          fontSize: 30,
-                          fontWeight: FontWeight.w200,
-                        ),
-                      ),
-
-                      const SizedBox(height: 50),
-
-                      // Email + Password
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25),
-                        child: TextField(
-                          controller: _email,
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          keyboardType: TextInputType.emailAddress,
-                          style: const TextStyle(color: Colours.mainText),
-                          decoration: InputDecoration(
-                            hintText: 'Email',
-                            hintStyle: const TextStyle(color: Colours.hintText),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: const BorderSide(
-                                    color: Colours.unfocusedBorder)),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: const BorderSide(
-                                    color: Colours.focusedBorder)),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // Error Message
-                      if (_errorMessage.isNotEmpty)
-                        Center(
-                          child: Text(
-                            _errorMessage,
-                            style: const TextStyle(
-                              color: Colours.error,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      const SizedBox(height: 15),
-
-                      // Reset Button
-                      MyButton(
-                        onTap: () async {
-                          passwordReset();
-                        },
-                        color: Colours.mainButton,
-                        child: const Center(
-                          child: Text(
-                            "Send Email",
-                            style: TextStyle(
-                              color: Colours.mainText,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 24),
-                          child: Text(
-                            textAlign: TextAlign.center,
-                            _message,
-                            style: const TextStyle(color: Colours.mainText),
-                          ),
-                        ),
-                      ),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+        ),
+        body: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, _) {
+              return Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: const [
+                      Colours.gradient1,
+                      Colours.gradient2,
                     ],
+                    begin: _topAlignmentAnimation.value,
+                    end: _bottomAlignmentAnimation.value,
                   ),
                 ),
-              ),
-            );
-          }),
+                child: SafeArea(
+                  child: Center(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 40),
+
+                        const Text(
+                          'reset password',
+                          style: TextStyle(
+                            color: Colours.heading,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w200,
+                          ),
+                        ),
+
+                        const SizedBox(height: 50),
+
+                        // Email + Password
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          child: TextField(
+                            controller: _email,
+                            enableSuggestions: false,
+                            autocorrect: false,
+                            keyboardType: TextInputType.emailAddress,
+                            style: const TextStyle(color: Colours.mainText),
+                            decoration: InputDecoration(
+                              hintText: 'Email',
+                              hintStyle:
+                                  const TextStyle(color: Colours.hintText),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                      color: Colours.unfocusedBorder)),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                      color: Colours.focusedBorder)),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // Error Message
+                        if (_errorMessage.isNotEmpty)
+                          Center(
+                            child: Text(
+                              _errorMessage,
+                              style: const TextStyle(
+                                color: Colours.error,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        const SizedBox(height: 15),
+
+                        // Reset Button
+                        MyButton(
+                          onTap: () async {
+                            passwordReset();
+                          },
+                          color: Colours.mainButton,
+                          child: const Center(
+                            child: Text(
+                              "Send Email",
+                              style: TextStyle(
+                                color: Colours.mainText,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 24),
+                            child: Text(
+                              textAlign: TextAlign.center,
+                              _message,
+                              style: const TextStyle(color: Colours.mainText),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }),
+      ),
     );
   }
 }

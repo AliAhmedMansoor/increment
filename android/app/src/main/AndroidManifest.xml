@@ -2,7 +2,7 @@
     package="one.increments.incrementapp">
    <application
 
-        android:label="incrementapp"
+        android:label="Increment"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         android:name="androidx.multidex.MultiDexApplication"

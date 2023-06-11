@@ -6,10 +6,10 @@ class Colours {
   // Gradients
   static const Color gradient1 = Color.fromARGB(197, 61, 27, 72);
   static const Color gradient2 = Color.fromARGB(211, 21, 8, 43);
-  static const Color deleteGradient1 = Color.fromARGB(255, 168, 71, 71);
-  static const Color deleteGradient2 = Color.fromARGB(255, 222, 133, 133);
+  static const Color deleteGradient1 = Color.fromARGB(255, 156, 58, 58);
+  static const Color deleteGradient2 = Color.fromARGB(255, 207, 91, 91);
   static const Color topFlexBackground1 = Color.fromARGB(210, 38, 20, 70);
-  static const Color topFlexBackground2 = Color.fromARGB(210, 126, 81, 142);
+  static const Color topFlexBackground2 = Color.fromARGB(210, 146, 95, 165);
 
   // Texts
   static const Color heading = Color.fromARGB(255, 255, 255, 255);
@@ -18,11 +18,11 @@ class Colours {
   static const Color error = Color.fromARGB(255, 255, 80, 80);
   static const Color mainText = Color.fromARGB(255, 248, 248, 248);
   static const Color secondaryButtonText = Color.fromARGB(200, 248, 248, 248);
-  static const Color counter = Color.fromARGB(180, 248, 248, 248);
+  static const Color counter = Color.fromARGB(200, 248, 248, 248);
 
   // Layout
   static const Color bottomFlexBackground = Color.fromARGB(255, 22, 22, 22);
-  static const Color floatingActionColour = Color.fromARGB(144, 161, 99, 181);
+  static const Color floatingActionColour = Color.fromARGB(144, 182, 120, 202);
 
   // Buttons
   static const Color mainButton = Color.fromARGB(12, 239, 239, 239);

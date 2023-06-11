@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:incrementapp/reusables/routes.dart';
 import 'package:incrementapp/firebase/auth/auth_service.dart';
 import 'package:incrementapp/views/login_view.dart';
@@ -8,6 +9,11 @@ import 'package:incrementapp/views/settings_view.dart';
 import 'package:incrementapp/views/verify_email_view.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   // Learn about Widget Binding - SHAHUM
   WidgetsFlutterBinding.ensureInitialized();
 
