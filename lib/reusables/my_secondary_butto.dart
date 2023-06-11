@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:incrementapp/themes/colours.dart';
 
-class MyButton extends StatelessWidget {
+class MySecondaryButton extends StatelessWidget {
   final Function()? onTap;
   final Widget child;
   final Color color;
   final Color borderColor;
   final double borderWidth;
 
-  const MyButton({
+  const MySecondaryButton({
     Key? key,
     required this.onTap,
     required this.child,
     this.color = Colors.transparent,
-    this.borderColor = Colours.focusedBorder,
+    this.borderColor = Colours.unfocusedBorder,
     this.borderWidth = 1.0,
   }) : super(key: key);
 

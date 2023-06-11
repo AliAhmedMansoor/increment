@@ -1,5 +1,6 @@
 import 'dart:async';
-
+import 'package:incrementapp/themes/colours.dart';
+import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,25 @@ import 'package:incrementapp/reusables/custom_drawer.dart';
 import 'package:incrementapp/pages/habits_page.dart';
 import 'package:incrementapp/pages/progress_page.dart';
 import 'package:incrementapp/pages/tasks_page.dart';
+
+// User Greeting Method and Date ----------
+var hour = DateTime.now().hour;
+
+String getGreeting(int hour) {
+  if (hour > 3 && hour < 12) {
+    return 'Good Morning';
+  } else if (hour > 11 && hour < 18) {
+    return 'Good Afternoon';
+  } else if (hour > 18 && hour < 22) {
+    return 'Good Evening';
+  } else {
+    return 'Plan Ahead!';
+  }
+}
+
+var now = DateTime.now();
+var formatter = DateFormat('EEEE, MMMM d');
+String formattedDate = formatter.format(now);
 
 class MainView extends StatefulWidget {
   MainView({required this.currentIndex, Key? key}) : super(key: key);
@@ -22,6 +42,7 @@ class _MainViewState extends State<MainView> {
   String? fetchedName;
   String? fetchedUuid;
   String? appBarText;
+  bool isProgressPage = false;
 
   void updateAppBarText(String newText) {
     setState(() {
@@ -31,7 +52,7 @@ class _MainViewState extends State<MainView> {
     // Revert back to the original text after 2 seconds
     Timer(const Duration(seconds: 1), () {
       setState(() {
-        appBarText = '$fetchedName';
+        appBarText = getGreeting(hour);
       });
     });
   }
@@ -57,13 +78,13 @@ class _MainViewState extends State<MainView> {
           setState(() {
             fetchedName = name;
             fetchedUuid = uuid;
-            appBarText = '$fetchedName';
+            appBarText = getGreeting(hour);
           });
         }
       });
     }
 
-    appBarText = '$fetchedName';
+    // appBarText = '$fetchedName';
   }
 
   @override
@@ -84,19 +105,67 @@ class _MainViewState extends State<MainView> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
-        backgroundColor: const Color.fromARGB(255, 22, 22, 22),
-        unselectedItemColor: const Color.fromARGB(255, 136, 136, 136),
-        selectedItemColor: const Color.fromARGB(255, 133, 105, 187),
+        backgroundColor: Colours.bottomFlexBackground,
         currentIndex: widget.currentIndex,
         onTap: (index) {
           setState(() {
             widget.currentIndex = index;
+            isProgressPage =
+                index == 2; // Changing App Bar Text If on Progress Page
           });
         },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.task), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.timeline), label: ''),
+        items: [
+          BottomNavigationBarItem(
+            icon: SizedBox(
+              height: 27,
+              child: Image.asset(
+                'lib/icons/tasks.png',
+                color: Colours.navigationUnfocused,
+              ),
+            ),
+            activeIcon: SizedBox(
+              height: 27,
+              child: Image.asset(
+                'lib/icons/tasks.png',
+                color: Colours.navigationFocused,
+              ),
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: SizedBox(
+              height: 29,
+              child: Image.asset(
+                'lib/icons/changes.png',
+                color: Colours.navigationUnfocused,
+              ),
+            ),
+            activeIcon: SizedBox(
+              height: 27,
+              child: Image.asset(
+                'lib/icons/changes.png',
+                color: Colours.navigationFocused,
+              ),
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: SizedBox(
+              height: 27,
+              child: Image.asset(
+                'lib/icons/calendar.png',
+                color: Colours.navigationUnfocused,
+              ),
+            ),
+            activeIcon: SizedBox(
+              height: 27,
+              child: Image.asset(
+                'lib/icons/calendar.png',
+                color: Colours.navigationFocused,
+              ),
+            ),
+            label: '',
+          ),
         ],
       ),
       drawer: CustomDrawer(name: fetchedName),
@@ -111,7 +180,9 @@ class _MainViewState extends State<MainView> {
           ),
         ),
         elevation: 0,
-        title: Text('$appBarText'),
+        title: Text(
+          isProgressPage ? fetchedName ?? '' : appBarText ?? '',
+        ),
       ),
     );
   }

@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:incrementapp/reusables/app_colours.dart';
+import 'package:incrementapp/themes/colours.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage(
@@ -83,9 +85,7 @@ class _TasksPageState extends State<TasksPage> {
       Stack(alignment: Alignment.center, children: [
         Container(
           decoration: BoxDecoration(
-            color: user.isChecked
-                ? const Color.fromARGB(232, 30, 30, 30)
-                : const Color.fromARGB(255, 34, 34, 34),
+            color: user.isChecked ? Colours.cardUnfocused : Colours.cardFocused,
             borderRadius: BorderRadius.circular(15),
           ),
           child: ListTile(
@@ -94,30 +94,33 @@ class _TasksPageState extends State<TasksPage> {
               child: GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 child: Checkbox(
-                  checkColor: const Color.fromARGB(255, 228, 167, 197),
+                  checkColor: Colours.checkBoxChecked,
                   fillColor: MaterialStateProperty.resolveWith((states) {
                     if (states.contains(MaterialState.selected)) {
-                      return const Color.fromARGB(
-                          232, 30, 30, 30); // When checkbox is checked
+                      return Colours.cardUnfocused; // When checkbox is checked
                     } else {
-                      return const Color.fromARGB(
-                          255, 197, 197, 197); // When checkbox is unchecked
+                      return Colours.mainIcon; // When checkbox is unchecked
                     }
                   }),
                   value: user.isChecked,
                   onChanged: (newValue) {
-                    setState(() {
-                      user.toggleChecked();
-                      if (user.isChecked && !hasConfettiPlayed) {
-                        confettiController.play();
-                        hasConfettiPlayed = true;
-                        widget.updateAppBarText('Woohoo!');
-                        // Start the timer for 2 seconds
-                        Timer(const Duration(seconds: 1), () {
-                          confettiController.stop();
-                        });
-                      }
-                    });
+                    setState(
+                      () {
+                        user.toggleChecked();
+                        if (user.isChecked && !hasConfettiPlayed) {
+                          confettiController.play();
+                          hasConfettiPlayed = true;
+                          widget.updateAppBarText('Woohoo!');
+                          // Start the timer for 2 seconds
+                          Timer(
+                            const Duration(seconds: 1),
+                            () {
+                              confettiController.stop();
+                            },
+                          );
+                        }
+                      },
+                    );
                     FirebaseFirestore.instance
                         .collection('users')
                         .doc(user.taskId)
@@ -129,20 +132,28 @@ class _TasksPageState extends State<TasksPage> {
                 ),
               ),
             ),
-            title: Text(
-              user.task,
-              style: user.isChecked
-                  ? const TextStyle(
-                      color: Color.fromARGB(255, 144, 144, 144),
-                      decoration: TextDecoration.lineThrough,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 17,
-                    )
-                  : const TextStyle(
-                      color: Color.fromARGB(255, 242, 242, 242),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 17,
-                    ),
+            title: Padding(
+              padding:
+                  const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 3.0),
+              child: Text(
+                maxLines: user.isChecked ? 1 : null,
+                user.task,
+                style: user.isChecked
+                    ? const TextStyle(
+                        color: Colours.body,
+                        decoration: TextDecoration.lineThrough,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 17,
+                        overflow: TextOverflow.fade,
+                        height: 1.5,
+                      )
+                    : const TextStyle(
+                        color: Colours.mainText,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 17,
+                        height: 1.5,
+                      ),
+              ),
             ),
           ),
         ),
@@ -262,8 +273,8 @@ class _TasksPageState extends State<TasksPage> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 109, 81, 165),
-              Color.fromARGB(255, 228, 167, 197)
+              Colours.topFlexBackground1,
+              Colours.topFlexBackground2,
             ],
             begin: Alignment.topCenter,
             end: Alignment.center,
@@ -282,9 +293,9 @@ class _TasksPageState extends State<TasksPage> {
                     '$tasksCount',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                       fontSize: 60,
-                      color: Color.fromARGB(192, 255, 255, 255),
+                      color: Colours.counter,
                     ),
                   ),
                 ),
@@ -294,7 +305,7 @@ class _TasksPageState extends State<TasksPage> {
               flex: 2,
               child: Container(
                 decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 22, 22, 22),
+                  color: Colours.bottomFlexBackground,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(25),
                     topRight: Radius.circular(25),
@@ -308,7 +319,7 @@ class _TasksPageState extends State<TasksPage> {
                     } else if (_isDelayCompleted == false) {
                       return const Center(
                           child: CircularProgressIndicator(
-                        color: Color.fromARGB(255, 228, 167, 197),
+                        color: Colours.navigationFocused,
                       ));
                     } else if (snapshot.hasData) {
                       final users = snapshot.data!;
@@ -327,7 +338,7 @@ class _TasksPageState extends State<TasksPage> {
                                     style: const TextStyle(
                                       height: 1.5,
                                       fontSize: 16,
-                                      color: Color.fromARGB(255, 228, 167, 197),
+                                      color: Colours.body,
                                     ),
                                   ),
                                 ),
@@ -357,10 +368,8 @@ class _TasksPageState extends State<TasksPage> {
                                             decoration: const BoxDecoration(
                                               gradient: LinearGradient(
                                                 colors: [
-                                                  Color.fromARGB(
-                                                      255, 168, 71, 71),
-                                                  Color.fromARGB(
-                                                      255, 222, 133, 133)
+                                                  Colours.deleteGradient1,
+                                                  Colours.deleteGradient2,
                                                 ],
                                                 begin: Alignment.centerRight,
                                                 end: Alignment.centerLeft,
@@ -375,7 +384,7 @@ class _TasksPageState extends State<TasksPage> {
                                                       right: 16.0),
                                                   child: Icon(
                                                     Icons.delete,
-                                                    color: Colors.white,
+                                                    color: Colours.mainIcon,
                                                   ),
                                                 ),
                                               ],
@@ -407,30 +416,26 @@ class _TasksPageState extends State<TasksPage> {
                     child: TextField(
                       focusNode: _focusNode,
                       controller: controller,
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colours.mainText),
+                      maxLength: 100,
+                      maxLengthEnforcement: MaxLengthEnforcement.enforced,
                       decoration: InputDecoration(
                         hintText: 'I want to...',
-                        hintStyle: const TextStyle(color: Colors.white54),
+                        hintStyle: const TextStyle(color: Colours.hintText),
+                        counterText: '',
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 8, horizontal: 16),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          borderSide: const BorderSide(
-                            color: PurpleTheme.primaryColor,
-                            width: 2.0,
-                          ),
-                        ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: const BorderSide(
-                            color: Colors.grey,
+                            color: Colours.unfocusedBorder,
                             width: 2.0,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                           borderSide: const BorderSide(
-                            color: Color.fromARGB(255, 128, 101, 183),
+                            color: Colours.navigationFocused,
                             width: 2.0,
                           ),
                         ),
@@ -450,7 +455,7 @@ class _TasksPageState extends State<TasksPage> {
                         controller.clear();
                         _focusNode.unfocus();
                       },
-                      backgroundColor: const Color.fromARGB(255, 128, 101, 183),
+                      backgroundColor: Colours.floatingActionColour,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
@@ -459,7 +464,7 @@ class _TasksPageState extends State<TasksPage> {
                         'increment',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: Color.fromARGB(255, 240, 240, 240),
+                          color: Colours.mainText,
                         ),
                       ),
                     ),

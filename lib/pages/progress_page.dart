@@ -18,8 +18,8 @@ class _ProgressPageState extends State<ProgressPage> {
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromARGB(255, 109, 81, 165),
-                  Color.fromARGB(255, 228, 167, 197)
+                  Color.fromARGB(210, 38, 20, 70),
+                  Color.fromARGB(210, 182, 129, 201),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.center,
@@ -124,17 +124,17 @@ class _ProgressPageState extends State<ProgressPage> {
                                                 return const LinearGradient(
                                                   colors: [
                                                     Color.fromARGB(
-                                                        255, 156, 128, 213),
+                                                        210, 140, 108, 195),
                                                     Color.fromARGB(
-                                                        255, 228, 167, 197)
+                                                        210, 236, 192, 252),
                                                   ],
                                                   begin: Alignment.bottomCenter,
                                                   end: Alignment.topCenter,
                                                 ).createShader(bounds);
                                               },
-                                              child: Text(
+                                              child: const Text(
                                                 'lol',
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   fontSize: 50,
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -180,9 +180,9 @@ class _ProgressPageState extends State<ProgressPage> {
                                                 return const LinearGradient(
                                                   colors: [
                                                     Color.fromARGB(
-                                                        255, 156, 128, 213),
+                                                        210, 140, 108, 195),
                                                     Color.fromARGB(
-                                                        255, 228, 167, 197)
+                                                        210, 236, 192, 252),
                                                   ],
                                                   begin: Alignment.bottomCenter,
                                                   end: Alignment.topCenter,

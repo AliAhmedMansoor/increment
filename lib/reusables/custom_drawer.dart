@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:incrementapp/firebase/auth/auth_service.dart';
 import 'package:incrementapp/reusables/routes.dart';
+import 'package:incrementapp/views/settings_view.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({required this.name, Key? key}) : super(key: key);
 
   final String? name;
-  final bool _darkMode = false;
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +15,16 @@ class CustomDrawer extends StatelessWidget {
         topRight: Radius.circular(30),
         bottomRight: Radius.circular(30),
       ),
-      child: Container(
-        height: 480,
+      child: SizedBox(
+        height: 410,
         child: Drawer(
-          backgroundColor: const Color.fromARGB(255, 26, 26, 26),
+          backgroundColor: Color.fromARGB(255, 32, 32, 32),
           width: 210,
           child: SingleChildScrollView(
             child: Column(
               children: [
                 Container(
-                  margin: const EdgeInsets.only(top: 50, bottom: 20),
+                  margin: const EdgeInsets.only(top: 70, bottom: 20),
                   child: Column(
                     children: [
                       const CircleAvatar(
@@ -36,37 +36,18 @@ class CustomDrawer extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 15),
-                      Text(
-                        name ?? "",
-                        style: const TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.white,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        child: Text(
+                          name ?? "",
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],
-                  ),
-                ),
-                ListTile(
-                  title: const Text(
-                    "Profile",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  leading: const Icon(
-                    Icons.person,
-                    color: Colors.white,
-                  ),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: const Text(
-                    "Mode",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  leading: const Icon(Icons.dark_mode, color: Colors.white),
-                  trailing: Switch(
-                    value: _darkMode,
-                    onChanged: (newSwitchValue) {},
                   ),
                 ),
                 ListTile(
@@ -75,23 +56,30 @@ class CustomDrawer extends StatelessWidget {
                     style: TextStyle(color: Colors.white),
                   ),
                   leading: const Icon(Icons.settings, color: Colors.white),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const SettingsView();
+                    })).then((_) {
+// Closing the custom drawer
+                      Navigator.pop(context);
+                    });
+                  },
                 ),
                 ListTile(
                   title: const Text(
-                    "Log out",
+                    "Sign Out",
                     style: TextStyle(color: Colors.white),
                   ),
                   leading: const Icon(Icons.logout, color: Colors.white),
                   onTap: () async {
-                    final shouldLogout = await showLogOutDialog(context);
-                    if (shouldLogout) {
-                      await AuthService.firebase().logOut();
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                        loginRoute,
-                        (_) => false,
-                      );
-                    }
+                    Navigator.of(context).pop(true);
+
+                    await AuthService.firebase().logOut();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      loginRoute,
+                      (_) => false,
+                    );
                   },
                 ),
               ],
@@ -101,29 +89,4 @@ class CustomDrawer extends StatelessWidget {
       ),
     );
   }
-}
-
-// Log Out Dialog
-Future<bool> showLogOutDialog(BuildContext context) {
-  return showDialog<bool>(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text('Sign Out'),
-        content: const Text('Would you like to sign out?'),
-        actions: [
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-              child: const Text('Cancel')),
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-              child: const Text('Log Out')),
-        ],
-      );
-    },
-  ).then((value) => value ?? false);
 }
