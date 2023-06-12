@@ -46,9 +46,9 @@ class _MainViewState extends State<MainView> {
   String? fetchedUuid;
   String? appBarText;
   bool isProgressPage = false;
-  static const IconData iconBeforeTap=Icons.calendar_today;
-  static const IconData iconAfterTap=Icons.add_box_rounded;
-  IconData currentIcon=iconBeforeTap;
+  static const IconData iconBeforeTap = Icons.calendar_today;
+  static const IconData iconAfterTap = Icons.add_box_rounded;
+  IconData currentIcon = iconBeforeTap;
   late Animation<double> primAnimation;
   late Animation<double> secAnimation;
   late AnimationController animationController;
@@ -119,22 +119,21 @@ class _MainViewState extends State<MainView> {
         currentIndex: widget.currentIndex,
         onTap: (index) {
           setState(() {
-            if( index==1 && currentIcon==iconAfterTap && preferences.getStringList("habitName")!.length<3) {
-              Navigator.push(context,PageTransition(
-                  child: const HabitSettings(),
-                  type: PageTransitionType.fade,
-                  curve: Curves.fastOutSlowIn,
-                  reverseDuration: const Duration(milliseconds: 250),
-                  duration: const Duration(milliseconds: 250)
-              ));
-            }
-            else {
-
-                widget.currentIndex = index;
-                currentIcon =
-                (index == 0 || index == 2) ? iconBeforeTap : iconAfterTap;
-
-
+            if (index == 1 &&
+                currentIcon == iconAfterTap &&
+                preferences.getStringList("habitName")!.length < 3) {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      child: const HabitSettings(),
+                      type: PageTransitionType.fade,
+                      curve: Curves.fastOutSlowIn,
+                      reverseDuration: const Duration(milliseconds: 250),
+                      duration: const Duration(milliseconds: 250)));
+            } else {
+              widget.currentIndex = index;
+              currentIcon =
+                  (index == 0 || index == 2) ? iconBeforeTap : iconAfterTap;
             }
             widget.currentIndex = index;
             isProgressPage =
@@ -161,16 +160,16 @@ class _MainViewState extends State<MainView> {
           ),
           BottomNavigationBarItem(
             icon: SizedBox(
-              height: 29,
+              height: 28,
               child: Image.asset(
                 'lib/icons/changes.png',
                 color: Colours.navigationUnfocused,
               ),
             ),
             activeIcon: SizedBox(
-              height: 27,
+              height: 28,
               child: Image.asset(
-                'lib/icons/changes.png',
+                'lib/icons/add.png',
                 color: Colours.navigationFocused,
               ),
             ),
