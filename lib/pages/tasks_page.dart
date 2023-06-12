@@ -79,6 +79,7 @@ class _TasksPageState extends State<TasksPage> {
   final controller = TextEditingController();
   final confettiController = ConfettiController();
   bool hasConfettiPlayed = false;
+  late  Timer myTimer;
   // For closing keyboard
   final FocusNode _focusNode = FocusNode();
   int tasksCount = 0;
@@ -189,7 +190,8 @@ class _TasksPageState extends State<TasksPage> {
   void initState() {
     super.initState();
     //Delay Timer
-    Timer(const Duration(milliseconds: 1500), () {
+
+    myTimer=Timer(const Duration(milliseconds: 1500), () {
       setState(() {
         _isDelayCompleted = true;
       });
@@ -218,6 +220,8 @@ class _TasksPageState extends State<TasksPage> {
   @override
   void dispose() {
     confettiController.dispose();
+    controller.dispose();
+    myTimer.cancel();
     super.dispose();
   }
 
