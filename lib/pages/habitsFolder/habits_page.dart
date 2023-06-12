@@ -78,11 +78,10 @@ class HabitList extends StatefulWidget {
 
 class _HabitListState extends State<HabitList> {
   List<HabitHolder> habits = List.empty(growable: true);
-  Stream<HabitHolder> stream = habitsWidgets.stream;
+  static Stream<HabitHolder> stream = habitsWidgets.stream.asBroadcastStream();
   @override
   void initState() {
     super.initState();
-
     setUpHabits();
   }
 
