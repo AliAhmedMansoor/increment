@@ -107,16 +107,13 @@ class EditPrompt extends StatelessWidget {
 
           if(i.toString()==habitNames[n]){
             flag=false;
-            print("HELLLLOOOOOOOOOOOO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            print(i);
-            print(n);
-            print(habitNames[n]);
+
             break;
           }
         }
         if(flag) {
 
-          print(habitNames.length);
+
           habitNames.add(i.toString());
           habitNumber = i;
           break;
