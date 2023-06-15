@@ -9,7 +9,6 @@ import 'package:incrementapp/views/settings_view.dart';
 import 'package:incrementapp/views/verify_email_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 String initialRoute=habitsRoute;
 late final SharedPreferences preferences;
 late List<String> habitName;
@@ -45,23 +44,17 @@ void setUpPreferences(){
   }
 
 }
-
-
-
-
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  // Learn about Widget Binding - SHAHUM
   WidgetsFlutterBinding.ensureInitialized();
 
   preferences = await SharedPreferences.getInstance();
-  ///preferences.clear();
+  preferences.clear();
   setUpPreferences();
 
   runApp(MaterialApp(

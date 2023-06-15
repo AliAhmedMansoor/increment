@@ -96,12 +96,34 @@ class EditPrompt extends StatelessWidget {
 
   void savePreferences()async{
 
+
     if(habitNumber==null)
     {
+      bool flag=true;
       List<String> habitNames=preferences.getStringList('habitName') as List<String>;
-      habitNames.add(habitName);
+      for(int i=1;i<4;i++){
+        flag=true;
+        for(int n=0;n<habitNames.length;n++){
+
+          if(i.toString()==habitNames[n]){
+            flag=false;
+            print("HELLLLOOOOOOOOOOOO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            print(i);
+            print(n);
+            print(habitNames[n]);
+            break;
+          }
+        }
+        if(flag) {
+
+          print(habitNames.length);
+          habitNames.add(i.toString());
+          habitNumber = i;
+          break;
+        }
+      }
       await preferences.setStringList('habitName', habitNames);
-      habitNumber=habitNames.length;
+      //habitNumber=habitNames.length;
       habitsWidgets.add(HabitHolder(habitNumber:habitNumber as int,key:GlobalKey()));
     }
     await preferences.setStringList('routine$habitNumber',routine);
@@ -139,9 +161,7 @@ class EditPrompt extends StatelessWidget {
                   ///save
                   savePreferences();
 
-                  Navigator.pop(context,(){
-                    setState(){};
-                  });
+                  Navigator.pop(context);
                 },
                   icon: const Icon(Icons.check),
                   color: Colors.white,),
