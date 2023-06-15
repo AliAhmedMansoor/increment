@@ -77,8 +77,10 @@ class HabitList extends StatefulWidget {
 }
 
 class _HabitListState extends State<HabitList> {
+
   List<HabitHolder> habits = List.empty(growable: true);
   static Stream<HabitHolder> stream = habitsWidgets.stream.asBroadcastStream();
+
   @override
   void initState() {
     super.initState();
@@ -95,7 +97,7 @@ class _HabitListState extends State<HabitList> {
         preferences.getStringList('habitName') as List<String>;
 
     for (int i = 0; i < habitsName.length; i++) {
-      habits.add(HabitHolder(habitNumber: i + 1, key: GlobalKey()));
+      habits.add(HabitHolder(habitNumber: int.parse(habitsName[i]), key: GlobalKey()));
     }
   }
 
@@ -104,21 +106,18 @@ class _HabitListState extends State<HabitList> {
     return StreamBuilder<HabitHolder>(
       stream: stream,
       builder: (context, snapshot) {
-        if (snapshot.data != null) {
-          habits.add(snapshot.data!);
-          habits = [];
-          habits = List.generate(
-              snapshot.data!.habitNumber,
-              (index) => HabitHolder(
-                    habitNumber: index + 1,
-                    key: GlobalKey(),
-                  ));
+        if(snapshot.data!=null) {
+          bool flag=true;
+          List<String> habitNames=preferences.getStringList('habitName') as List<String>;
+          habits=List.generate(
+              habitNames.length,
+                  (index) => HabitHolder(habitNumber:int.parse(habitNames[index]),key: GlobalKey(),)
+          );
         }
         return ListView(
           children: habits,
         );
-      },
-    );
+        },);
   }
 }
 
@@ -209,8 +208,15 @@ class _HabitHolderState extends State<HabitHolder> {
           if (confirm == DismissDirection.endToStart) {
             actionReference();
             return false;
-          } else if (confirm == DismissDirection.startToEnd) {
-            //preferences.getStringList("habitName")!.removeLast();
+
+          }
+            else if(confirm==DismissDirection.startToEnd){
+
+            List<String> habitName=preferences.getStringList("habitName") as List<String>;
+          
+            habitName.remove(widget.habitNumber.toString());
+            preferences.setStringList('habitName', habitName);
+
             return true;
           }
           return true;

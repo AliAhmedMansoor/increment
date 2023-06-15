@@ -105,16 +105,39 @@ class EditPrompt extends StatelessWidget {
   int? habitNumber;
   EditPrompt({Key? key, required this.habitNumber}) : super(key: key);
 
+
+
+ 
+
   void savePreferences() async {
-    if (habitNumber == null) {
-      List<String> habitNames =
-          preferences.getStringList('habitName') as List<String>;
-      habitNames.add(habitName);
+   
+    if(habitNumber==null)
+    {
+      bool flag=true;
+      List<String> habitNames=preferences.getStringList('habitName') as List<String>;
+      for(int i=1;i<4;i++){
+        flag=true;
+        for(int n=0;n<habitNames.length;n++){
+
+          if(i.toString()==habitNames[n]){
+            flag=false;
+
+            break;
+          }
+        }
+        if(flag) {
+
+
+          habitNames.add(i.toString());
+          habitNumber = i;
+          break;
+        }
+      }
       await preferences.setStringList('habitName', habitNames);
-      habitNumber = habitNames.length;
-      habitsWidgets
-          .add(HabitHolder(habitNumber: habitNumber as int, key: GlobalKey()));
+      //habitNumber=habitNames.length;
+      habitsWidgets.add(HabitHolder(habitNumber:habitNumber as int,key:GlobalKey()));
     }
+ 
     await preferences.setStringList('routine$habitNumber', routine);
     await preferences.setStringList('habitStart$habitNumber',
         [habitStart.hour.toString(), habitStart.minute.toString()]);
@@ -136,6 +159,33 @@ class EditPrompt extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(onPressed:(){
+                  ///exit without saving
+                  Navigator.pop(context);
+
+                },
+                  icon: const Icon(Icons.close),
+                  color: Colors.white,),
+
+                const Text('Enter Habit',style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18,color: Colors.white),),
+
+                IconButton(onPressed:(){
+                  ///save
+                  savePreferences();
+
+                  Navigator.pop(context);
+                },
+                  icon: const Icon(Icons.check),
+                  color: Colors.white,),
+
+              ],
+
+
             IconButton(
               onPressed: () {
                 ///exit without saving
@@ -143,6 +193,7 @@ class EditPrompt extends StatelessWidget {
               },
               icon: const Icon(Icons.close),
               color: Colors.white,
+
             ),
             const Text(
               'Enter Habit',
