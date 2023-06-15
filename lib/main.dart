@@ -54,7 +54,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   preferences = await SharedPreferences.getInstance();
-  preferences.clear();
+ /// preferences.clear();
   setUpPreferences();
 
   runApp(MaterialApp(
