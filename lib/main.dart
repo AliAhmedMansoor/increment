@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:incrementapp/onboarding_screent.dart';
 import 'package:incrementapp/reusables/routes.dart';
 import 'package:incrementapp/firebase/auth/auth_service.dart';
 import 'package:incrementapp/views/login_view.dart';
@@ -7,6 +8,7 @@ import 'package:incrementapp/views/main_view.dart';
 import 'package:incrementapp/views/register_view.dart';
 import 'package:incrementapp/views/settings_view.dart';
 import 'package:incrementapp/views/verify_email_view.dart';
+import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -66,6 +68,7 @@ void main() async {
       habitsRoute: (context) => MainView(currentIndex: 0),
       verifyEmailRoute: (context) => const VerifyEmailView(),
       settingsRoute: (context) => const SettingsView(),
+      landingRoute: (context) => const OnBoardingScreen(),
     },
   ));
 }
@@ -85,7 +88,7 @@ class HomePage extends StatelessWidget {
               if (user.isEmailVerified) {
                 return MainView(currentIndex: 0);
               } else {
-                return const VerifyEmailView();
+                return const OnBoardingScreen();
               }
             } else {
               return const LoginView();
