@@ -50,6 +50,7 @@ dependencies:
   simple_animation_progress_bar: ^1.6.0
   animations: ^2.0.7
   confetti: ^0.7.0
+  smooth_page_indicator: ^1.0.0
 
 dev_dependencies:
   flutter_test:
