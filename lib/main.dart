@@ -8,6 +8,7 @@ import 'package:incrementapp/views/main_view.dart';
 import 'package:incrementapp/views/register_view.dart';
 import 'package:incrementapp/views/settings_view.dart';
 import 'package:incrementapp/views/verify_email_view.dart';
+import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String initialRoute = habitsRoute;
@@ -56,13 +57,14 @@ void main() async {
   runApp(MaterialApp(
     title: 'increment',
     theme: ThemeData.dark(),
-    home: OnBoardingScreen(),
+    home: const HomePage(),
     routes: {
       loginRoute: (context) => const LoginView(),
       registerRoute: (context) => const RegisterView(),
       habitsRoute: (context) => MainView(currentIndex: 0),
       verifyEmailRoute: (context) => const VerifyEmailView(),
       settingsRoute: (context) => const SettingsView(),
+      landingRoute: (context) => const OnBoardingScreen(),
     },
   ));
 }
@@ -82,7 +84,7 @@ class HomePage extends StatelessWidget {
               if (user.isEmailVerified) {
                 return MainView(currentIndex: 0);
               } else {
-                return const VerifyEmailView();
+                return const OnBoardingScreen();
               }
             } else {
               return const LoginView();
