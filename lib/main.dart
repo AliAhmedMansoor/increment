@@ -11,8 +11,7 @@ import 'package:incrementapp/views/verify_email_view.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-String initialRoute=habitsRoute;
+String initialRoute = habitsRoute;
 
 late final SharedPreferences preferences;
 late List<String> habitName;
@@ -54,7 +53,7 @@ void main() async {
 
   preferences = await SharedPreferences.getInstance();
 
- /// preferences.clear();
+  /// preferences.clear();
 
   setUpPreferences();
 
@@ -88,7 +87,7 @@ class HomePage extends StatelessWidget {
               if (user.isEmailVerified) {
                 return MainView(currentIndex: 0);
               } else {
-                return const OnBoardingScreen();
+                return const VerifyEmailView();
               }
             } else {
               return const LoginView();
