@@ -79,7 +79,7 @@ class _TasksPageState extends State<TasksPage> {
   final controller = TextEditingController();
   final confettiController = ConfettiController();
   bool hasConfettiPlayed = false;
-  late  Timer myTimer;
+  late Timer myTimer;
   // For closing keyboard
   final FocusNode _focusNode = FocusNode();
   int tasksCount = 0;
@@ -92,7 +92,7 @@ class _TasksPageState extends State<TasksPage> {
         Container(
           decoration: BoxDecoration(
             color: user.isChecked ? Colours.cardUnfocused : Colours.cardFocused,
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(15.0),
           ),
           child: ListTile(
             trailing: Transform.scale(
@@ -191,7 +191,7 @@ class _TasksPageState extends State<TasksPage> {
     super.initState();
     //Delay Timer
 
-    myTimer=Timer(const Duration(milliseconds: 1500), () {
+    myTimer = Timer(const Duration(milliseconds: 1500), () {
       setState(() {
         _isDelayCompleted = true;
       });
@@ -365,63 +365,61 @@ class _TasksPageState extends State<TasksPage> {
                                     ),
                                   )
                                 : Padding(
-                                    padding: const EdgeInsets.only(top: 15),
+                                    padding: const EdgeInsets.only(top: 20),
                                     child: ListView.builder(
                                       itemCount: users.length,
                                       itemBuilder: (context, index) {
                                         final user = users[index];
                                         return Container(
-                                            margin: const EdgeInsets.symmetric(
-                                              horizontal: 20,
-                                              vertical: 7,
-                                            ),
-                                            child: Dismissible(
-                                              key: Key(user.taskId),
-                                              onDismissed: (direction) {
-                                                _onDismissed(user.taskId);
-                                              },
-                                              direction:
-                                                  DismissDirection.endToStart,
-                                              background: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                                child: Container(
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                    gradient: LinearGradient(
-                                                      colors: [
-                                                        Colours.deleteGradient1,
-                                                        Colours.deleteGradient2,
-                                                      ],
-                                                      begin:
-                                                          Alignment.centerRight,
-                                                      end: Alignment.centerLeft,
-                                                    ),
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: const [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                right: 16.0),
-                                                        child: Icon(
-                                                          Icons.delete,
-                                                          color:
-                                                              Colours.mainIcon,
-                                                        ),
-                                                      ),
+                                          margin: const EdgeInsets.symmetric(
+                                            horizontal: 20,
+                                            vertical: 7,
+                                          ),
+                                          child: Dismissible(
+                                            key: Key(user.taskId),
+                                            onDismissed: (direction) {
+                                              _onDismissed(user.taskId);
+                                            },
+                                            direction:
+                                                DismissDirection.endToStart,
+                                            background: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              child: Container(
+                                                decoration: const BoxDecoration(
+                                                  gradient: LinearGradient(
+                                                    colors: [
+                                                      Colours.deleteGradient1,
+                                                      Colours.deleteGradient2,
                                                     ],
+                                                    begin:
+                                                        Alignment.centerRight,
+                                                    end: Alignment.centerLeft,
                                                   ),
                                                 ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: const [
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          right: 16.0),
+                                                      child: Icon(
+                                                        Icons.delete,
+                                                        color: Colours.mainIcon,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                              child: buildUser(user, () {
-                                                setState(() {
-                                                  user.toggleChecked();
-                                                });
-                                              }),
-                                            ));
+                                            ),
+                                            child: buildUser(user, () {
+                                              setState(() {
+                                                user.toggleChecked();
+                                              });
+                                            }),
+                                          ),
+                                        );
                                       },
                                     ),
                                   );
@@ -445,6 +443,8 @@ class _TasksPageState extends State<TasksPage> {
                           child: TextField(
                             focusNode: _focusNode,
                             controller: controller,
+                            maxLines: null,
+                            minLines: 1,
                             style: const TextStyle(color: Colours.mainText),
                             maxLength: 100,
                             maxLengthEnforcement: MaxLengthEnforcement.enforced,
@@ -453,7 +453,7 @@ class _TasksPageState extends State<TasksPage> {
                               hintStyle: const TextStyle(color: Colours.body),
                               counterText: '',
                               contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 18),
+                                  vertical: 15, horizontal: 15),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15.0),
                                 borderSide: const BorderSide(

@@ -40,5 +40,7 @@ class Colours {
 
   // Cards
   static const Color cardUnfocused = Color.fromARGB(232, 30, 30, 30);
-  static const Color cardFocused = Color.fromARGB(255, 34, 34, 34);
+  static const Color cardFocused = Color.fromARGB(219, 34, 34, 34);
+  static const Color habitCardUnfocused = Color.fromARGB(255, 35, 35, 35);
+  static const Color habitCardFocused = Color.fromARGB(255, 34, 34, 34);
 }

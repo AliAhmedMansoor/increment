@@ -16,8 +16,12 @@ class RegisterView extends StatefulWidget {
 
 // Adding to Firestore
 Future addUserDetails(String inputName, String inputEmail) async {
+  final name = inputName.trim();
+  final formattedName =
+      name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+
   await FirebaseFirestore.instance.collection('users').add({
-    'name': inputName,
+    'name': formattedName,
     'email': inputEmail,
   });
 }
@@ -151,7 +155,7 @@ class _RegisterViewState extends State<RegisterView>
                             autocorrect: false,
                             style: const TextStyle(color: Colours.mainText),
                             decoration: InputDecoration(
-                              hintText: 'Name',
+                              hintText: 'First Name',
                               hintStyle:
                                   const TextStyle(color: Colours.hintText),
                               enabledBorder: OutlineInputBorder(
@@ -283,6 +287,7 @@ class _RegisterViewState extends State<RegisterView>
                                 style: const TextStyle(
                                   color: Colours.error,
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 15,
                                 ),
                               ),
                             ),
@@ -294,15 +299,39 @@ class _RegisterViewState extends State<RegisterView>
                         MyButton(
                           color: Colours.mainButton,
                           onTap: () async {
+                            final name = _name.text;
                             final email = _email.text;
                             final password = _password.text;
                             final confirmPassword = _confirmPassword.text;
 
+                            // Validating Name
+                            try {
+                              if (name.isEmpty) {
+                                throw 'You forgot to tell us your name!';
+                              } else if (RegExp(r'^[0-9]+$').hasMatch(name)) {
+                                throw 'Name cannot be numeric.';
+                              } else if (name.length > 35) {
+                                throw 'Name cannot exceed 35 characters.';
+                              } else if (name.length < 2) {
+                                throw 'Name cannot be less than 2 characters.';
+                              } else if (RegExp(r'\s').hasMatch(name)) {
+                                throw 'Name cannot have whitespace characters.';
+                              } else if (RegExp(r'[^\w\s]').hasMatch(name)) {
+                                throw 'Name cannot have special characters.';
+                              } else if (name.toLowerCase() == 'name') {
+                                throw 'That can\'t be a name, right?';
+                              }
+                            } catch (e) {
+                              setState(() {
+                                _errorMessage = e.toString();
+                              });
+                              return;
+                            }
+
                             // Confirming Password
                             if (password != confirmPassword) {
                               setState(() {
-                                _errorMessage =
-                                    'Passwords are not identical twins.';
+                                _errorMessage = 'Passwords are not identical.';
                               });
                               return;
                             }
@@ -316,10 +345,24 @@ class _RegisterViewState extends State<RegisterView>
 
                               AuthService.firebase().sendEmailVerification();
                               Navigator.of(context).pushNamed(verifyEmailRoute);
+
+                              final user = AuthService.firebase().currentUser;
+
+                              // Storing details in Firestore
+                              await addUserDetails(name.trim(), email.trim());
                             } on WeakPasswordAuthException {
                               setState(() {
                                 _errorMessage =
                                     'Your password needs a gym pass!';
+                              });
+                            } on OutOfRangePasswordException {
+                              setState(() {
+                                _errorMessage =
+                                    'Password must be 8-50 characters.';
+                              });
+                            } on CannotBePasswordException {
+                              setState(() {
+                                _errorMessage = 'Password cannot be "password"';
                               });
                             } on EmailAlreadyInUseAuthException {
                               setState(() {
@@ -341,12 +384,22 @@ class _RegisterViewState extends State<RegisterView>
                                 _errorMessage =
                                     'Oh no, it seems like your email and password are on a vacation!';
                               });
+                            } on OutOfRangeAuthException {
+                              setState(() {
+                                _errorMessage =
+                                    'Email must be 6-30 characters long.';
+                              });
+                            } on CannotStartWithAuthException {
+                              setState(() {
+                                _errorMessage =
+                                    'Email cannot start with a special character or number.';
+                              });
+                            } on CannotHaveWhiteSpace {
+                              setState(() {
+                                _errorMessage =
+                                    'Email cannot contain whitespace characters.';
+                              });
                             }
-
-                            final user = AuthService.firebase().currentUser;
-                            // Storing details in Firestore
-                            addUserDetails(
-                                _name.text.trim(), _email.text.trim());
                           },
                           child: const Center(
                             child: Text(
@@ -359,6 +412,7 @@ class _RegisterViewState extends State<RegisterView>
                             ),
                           ),
                         ),
+
                         const SizedBox(height: 20),
 
                         MySecondaryButton(

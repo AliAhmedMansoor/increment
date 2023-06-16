@@ -12,10 +12,31 @@ class FirebaseAuthProvider implements AuthProvider {
     required String email,
     required String password,
   }) async {
-    // Added this
+    // Email Exceptions
+
     if (email.isEmpty || password.isEmpty) {
       throw MissingDetailsAuthException();
+    } else if (email.indexOf('@') < 6 || email.indexOf('@') > 30) {
+      throw OutOfRangeAuthException();
+    } else if (email.startsWith(RegExp(r'\d'))) {
+      throw CannotStartWithAuthException();
+    } else if (!RegExp(
+            r'^[A-Za-z0-9]+([_.][A-Za-z0-9]+)*@[A-Za-z0-9]+(\.[A-Za-z0-9]+)*$')
+        .hasMatch(email)) {
+      throw InvalidEmailAuthException();
+    } else if (email.contains(RegExp(r'\s'))) {
+      throw CannotHaveWhiteSpace();
     }
+
+    // Password Exceptions
+
+    if (password.length > 50) {
+      throw OutOfRangePasswordException();
+    }
+    if (password.toLowerCase() == 'password') {
+      throw CannotBePasswordException();
+    }
+
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
