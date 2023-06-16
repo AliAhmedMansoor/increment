@@ -118,14 +118,30 @@ class EditPrompt extends StatelessWidget {
 
   void savePreferences() async {
     if (habitNumber == null) {
+      bool flag = true;
       List<String> habitNames =
           preferences.getStringList('habitName') as List<String>;
-      habitNames.add(habitName);
+      for (int i = 1; i < 4; i++) {
+        flag = true;
+        for (int n = 0; n < habitNames.length; n++) {
+          if (i.toString() == habitNames[n]) {
+            flag = false;
+
+            break;
+          }
+        }
+        if (flag) {
+          habitNames.add(i.toString());
+          habitNumber = i;
+          break;
+        }
+      }
       await preferences.setStringList('habitName', habitNames);
-      habitNumber = habitNames.length;
+      //habitNumber=habitNames.length;
       habitsWidgets
           .add(HabitHolder(habitNumber: habitNumber as int, key: GlobalKey()));
     }
+
     await preferences.setStringList('routine$habitNumber', routine);
     await preferences.setStringList('habitStart$habitNumber',
         [habitStart.hour.toString(), habitStart.minute.toString()]);

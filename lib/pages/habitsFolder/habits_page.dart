@@ -114,6 +114,7 @@ class HabitList extends StatefulWidget {
 class _HabitListState extends State<HabitList> {
   List<HabitHolder> habits = List.empty(growable: true);
   static Stream<HabitHolder> stream = habitsWidgets.stream.asBroadcastStream();
+
   @override
   void initState() {
     super.initState();
@@ -130,7 +131,8 @@ class _HabitListState extends State<HabitList> {
         preferences.getStringList('habitName') as List<String>;
 
     for (int i = 0; i < habitsName.length; i++) {
-      habits.add(HabitHolder(habitNumber: i + 1, key: GlobalKey()));
+      habits.add(
+          HabitHolder(habitNumber: int.parse(habitsName[i]), key: GlobalKey()));
     }
   }
 
@@ -140,12 +142,13 @@ class _HabitListState extends State<HabitList> {
       stream: stream,
       builder: (context, snapshot) {
         if (snapshot.data != null) {
-          habits.add(snapshot.data!);
-          habits = [];
+          bool flag = true;
+          List<String> habitNames =
+              preferences.getStringList('habitName') as List<String>;
           habits = List.generate(
-              snapshot.data!.habitNumber,
+              habitNames.length,
               (index) => HabitHolder(
-                    habitNumber: index + 1,
+                    habitNumber: int.parse(habitNames[index]),
                     key: GlobalKey(),
                   ));
         }
@@ -256,6 +259,14 @@ class _HabitHolderState extends State<HabitHolder> {
           } else if (confirm == DismissDirection.startToEnd) {
             actionReference();
             return false;
+          } else if (confirm == DismissDirection.startToEnd) {
+            List<String> habitName =
+                preferences.getStringList("habitName") as List<String>;
+
+            habitName.remove(widget.habitNumber.toString());
+            preferences.setStringList('habitName', habitName);
+
+            return true;
           }
           return true;
         },

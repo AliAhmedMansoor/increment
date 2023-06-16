@@ -221,7 +221,7 @@ class _TasksPageState extends State<TasksPage> {
   void dispose() {
     confettiController.dispose();
     controller.dispose();
-    myTimer.cancel();
+    //myTimer.cancel();
     super.dispose();
   }
 
