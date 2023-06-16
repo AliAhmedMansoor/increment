@@ -81,8 +81,8 @@ class _HabitSettingsState extends State<HabitSettings> {
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colours.gradient1,
-            Colours.gradient2,
+            Colours.habitSettingsGradient1,
+            Colours.habitSettingsGradient2,
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

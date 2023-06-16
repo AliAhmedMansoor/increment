@@ -6,6 +6,8 @@ class Colours {
   // Gradients
   static const Color gradient1 = Color.fromARGB(197, 61, 27, 72);
   static const Color gradient2 = Color.fromARGB(211, 21, 8, 43);
+  static const Color habitSettingsGradient1 = Color.fromARGB(255, 61, 27, 72);
+  static const Color habitSettingsGradient2 = Color.fromARGB(255, 21, 8, 43);
   static const Color deleteGradient1 = Color.fromARGB(255, 156, 58, 58);
   static const Color deleteGradient2 = Color.fromARGB(255, 207, 91, 91);
   static const Color topFlexBackground1 = Color.fromARGB(210, 38, 20, 70);

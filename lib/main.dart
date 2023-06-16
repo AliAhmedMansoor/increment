@@ -52,8 +52,6 @@ void main() async {
 
   preferences = await SharedPreferences.getInstance();
 
-  /// preferences.clear();
-
   setUpPreferences();
 
   runApp(MaterialApp(
