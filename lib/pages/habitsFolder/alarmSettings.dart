@@ -159,37 +159,30 @@ class EditPrompt extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            IconButton(onPressed:(){
+              ///exit without saving
+              Navigator.pop(context);
 
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(onPressed:(){
-                  ///exit without saving
-                  Navigator.pop(context);
+            },
+              icon: const Icon(Icons.close),
+              color: Colors.white,),
 
-                },
-                  icon: const Icon(Icons.close),
-                  color: Colors.white,),
+            const Text('Enter Habit',style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18,color: Colors.white),),
 
-                const Text('Enter Habit',style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18,color: Colors.white),),
+            IconButton(onPressed:(){
+              ///save
+              savePreferences();
 
-                IconButton(onPressed:(){
-                  ///save
-                  savePreferences();
+              Navigator.pop(context);
+            },
+              icon: const Icon(Icons.check),
+              color: Colors.white,),
 
-                  Navigator.pop(context);
-                },
-                  icon: const Icon(Icons.check),
-                  color: Colors.white,),
-
-              ],
-
-
-
-
-            ),
           ],
+
+
+
+
         ),
         const Positioned(
             left: 0,
