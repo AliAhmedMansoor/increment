@@ -7,7 +7,7 @@ import 'package:incrementapp/views/main_view.dart';
 import 'package:incrementapp/views/register_view.dart';
 import 'package:incrementapp/views/settings_view.dart';
 import 'package:incrementapp/views/verify_email_view.dart';
-import 'package:path/path.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 String initialRoute = habitsRoute;

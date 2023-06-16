@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:incrementapp/themes/colours.dart';
-import 'package:intl/intl.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,25 +11,6 @@ import 'package:incrementapp/pages/tasks_page.dart';
 import 'package:incrementapp/main.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:incrementapp/pages/habitsFolder/alarmSettings.dart';
-
-// User Greeting Method and Date ----------
-var hour = DateTime.now().hour;
-
-String getGreeting(int hour) {
-  if (hour > 3 && hour < 12) {
-    return 'Good Morning';
-  } else if (hour > 11 && hour < 18) {
-    return 'Good Afternoon';
-  } else if (hour > 18 && hour < 22) {
-    return 'Good Evening';
-  } else {
-    return 'Plan Ahead';
-  }
-}
-
-var now = DateTime.now();
-var formatter = DateFormat('EEEE, MMMM d');
-String formattedDate = formatter.format(now);
 
 class MainView extends StatefulWidget {
   MainView({required this.currentIndex, Key? key}) : super(key: key);
@@ -59,12 +40,27 @@ class _MainViewState extends State<MainView> {
       appBarText = newText;
     });
 
-    //Revert back to the original text after 2 seconds
+    // Revert back to the original text after 2 seconds
     Timer(const Duration(seconds: 1), () {
       setState(() {
-        appBarText = getGreeting(hour);
+        appBarText = getGreeting(DateTime.now().hour);
       });
     });
+  }
+
+  // User Greeting Method and Date ----------
+  var hour = DateTime.now().hour;
+
+  String getGreeting(int hour) {
+    if (hour > 3 && hour < 12) {
+      return 'Good Morning';
+    } else if (hour > 11 && hour < 18) {
+      return 'Good Afternoon';
+    } else if (hour > 18 && hour < 22) {
+      return 'Good Evening';
+    } else {
+      return 'Plan Ahead';
+    }
   }
 
   @override
@@ -110,7 +106,9 @@ class _MainViewState extends State<MainView> {
             updateAppBarText: updateAppBarText, // Passing the callback function
           ),
           const HabitsPage(),
-          const ProgressPage(),
+          ProgressPage(
+            fetchedName: fetchedName,
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -207,7 +205,7 @@ class _MainViewState extends State<MainView> {
         ),
         elevation: 0,
         title: Text(
-          isProgressPage ? fetchedName ?? '' : appBarText ?? '',
+          isProgressPage ? 'Overview' : appBarText ?? '',
         ),
       ),
     );

@@ -1,16 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:incrementapp/reusables/progress_card.dart';
 
 class ProgressPage extends StatefulWidget {
-  const ProgressPage({Key? key}) : super(key: key);
+  const ProgressPage({required this.fetchedName, Key? key}) : super(key: key);
+
+  final String? fetchedName;
 
   @override
   State<ProgressPage> createState() => _ProgressPageState();
+}
+
+class Year {
+  static int getYear() {
+    DateTime now = DateTime.now();
+    return now.year;
+  }
 }
 
 class _ProgressPageState extends State<ProgressPage> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    int currentYear = Year.getYear();
+
+    // Progress Card
+    double percentage = 0.5;
+    String habitName = "Running";
+
     return Scaffold(
       body: Stack(
         children: [
@@ -50,15 +66,30 @@ class _ProgressPageState extends State<ProgressPage> {
                         padding: const EdgeInsets.only(top: 30, bottom: 25),
                         child: Column(
                           children: [
-                            const CircleAvatar(
-                              radius: 45,
-                              backgroundColor: Color.fromARGB(255, 43, 43, 43),
-                              child: Text(
-                                "🗿",
-                                style: TextStyle(fontSize: 45.0),
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: ShaderMask(
+                                shaderCallback: (Rect bounds) {
+                                  return const LinearGradient(
+                                    colors: [
+                                      Color.fromARGB(255, 183, 155, 233),
+                                      Color.fromARGB(255, 248, 227, 255),
+                                    ],
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                  ).createShader(bounds);
+                                },
+                                child: Text(
+                                  "${widget.fetchedName}'s Progress",
+                                  style: const TextStyle(
+                                    fontSize: 22.0,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                ),
                               ),
                             ),
                             const SizedBox(height: 25),
+                            // Divider
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 25.0),
@@ -74,8 +105,11 @@ class _ProgressPageState extends State<ProgressPage> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 15.0),
                                     child: Text(
-                                      "Today's Progress",
-                                      style: TextStyle(color: Colors.grey[300]),
+                                      "TODAY",
+                                      style: TextStyle(
+                                        color: Colors.grey[300],
+                                        fontSize: 14,
+                                      ),
                                     ),
                                   ),
                                   Expanded(
@@ -133,7 +167,7 @@ class _ProgressPageState extends State<ProgressPage> {
                                                 ).createShader(bounds);
                                               },
                                               child: const Text(
-                                                'lol',
+                                                'T',
                                                 style: TextStyle(
                                                   fontSize: 50,
                                                   fontWeight: FontWeight.bold,
@@ -189,7 +223,7 @@ class _ProgressPageState extends State<ProgressPage> {
                                                 ).createShader(bounds);
                                               },
                                               child: const Text(
-                                                "0",
+                                                "H",
                                                 style: TextStyle(
                                                   fontSize: 50,
                                                   fontWeight: FontWeight.bold,
@@ -203,6 +237,47 @@ class _ProgressPageState extends State<ProgressPage> {
                                   ),
                                 ),
                               ],
+                            ),
+
+                            const SizedBox(height: 25),
+                            // Divider
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 25.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Divider(
+                                      thickness: 0.5,
+                                      color: Colors.grey[300],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15.0),
+                                    child: Text(
+                                      "$currentYear AT A GLANCE",
+                                      style: TextStyle(
+                                        color: Colors.grey[300],
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Divider(
+                                      thickness: 0.5,
+                                      color: Colors.grey[300],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 25),
+
+                            // Progress Card
+                            ProgressCard(
+                              percentage: percentage,
+                              habitName: habitName,
                             ),
                           ],
                         ),
