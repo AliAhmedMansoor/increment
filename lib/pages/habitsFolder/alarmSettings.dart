@@ -186,34 +186,8 @@ class EditPrompt extends StatelessWidget {
               ],
 
 
-            IconButton(
-              onPressed: () {
-                ///exit without saving
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.close),
-              color: Colors.white,
 
-            ),
-            const Text(
-              'Enter Habit',
-              style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 18,
-                  color: Colors.white),
-            ),
-            IconButton(
-              onPressed: () {
-                ///save
-                savePreferences();
 
-                Navigator.pop(context, () {
-                  setState() {}
-                  ;
-                });
-              },
-              icon: const Icon(Icons.check),
-              color: Colors.white,
             ),
           ],
         ),
