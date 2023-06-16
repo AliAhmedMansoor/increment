@@ -99,6 +99,10 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView>
         setState(() {
           _errorMessage = 'Umm, this is not how it works.';
         });
+      } else if (e.code == 'invalid-email') {
+        setState(() {
+          _errorMessage = 'Uh-oh! The email syntax is invalid.';
+        });
       } else {
         setState(() {
           _errorMessage = 'Error: ${e.code}';

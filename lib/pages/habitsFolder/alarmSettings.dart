@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:incrementapp/main.dart';
 import 'package:incrementapp/pages/habitsFolder/habits_page.dart';
+import 'package:incrementapp/reusables/my_button.dart';
+import 'package:incrementapp/themes/colours.dart';
 import 'package:list_wheel_scroll_view_nls/list_wheel_scroll_view_nls.dart';
 import 'package:animated_clipper/animated_clipper.dart';
 
@@ -31,13 +33,13 @@ late String habitName = 'New Habit';
 ///will be changed in the future
 
 Map<String, int> routineToIndex = {
-  'Monday': 0,
-  'Tuesday': 1,
-  'Wednesday': 2,
-  'Thursday': 3,
-  'Friday': 4,
-  'Saturday': 5,
-  'Sunday': 6
+  'MON': 0,
+  'TUE': 1,
+  'WED': 2,
+  'THU': 3,
+  'FRI': 4,
+  'SAT': 5,
+  'SUN': 6
 };
 
 class HabitSettings extends StatefulWidget {
@@ -76,7 +78,16 @@ class _HabitSettingsState extends State<HabitSettings> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color.fromARGB(255, 28, 33, 41),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colours.gradient1,
+            Colours.gradient2,
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
       child: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -130,54 +141,46 @@ class EditPrompt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: const Color.fromARGB(255, 28, 33, 41),
-      child: Stack(clipBehavior: Clip.none, children: [
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              onPressed: () {
-                ///exit without saving
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.close),
-              color: Colors.white,
-            ),
-            const Text(
-              'Enter Habit',
-              style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 18,
-                  color: Colors.white),
-            ),
-            IconButton(
-              onPressed: () {
-                ///save
-                savePreferences();
+      color: Colors.transparent,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                onPressed: () {
+                  ///exit without saving
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.close),
+                color: Colours.mainIcon,
+              ),
+              const Text(
+                'Enter Habit',
+                style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18,
+                    color: Colors.white),
+              ),
+              IconButton(
+                onPressed: () {
+                  ///save
+                  savePreferences();
 
-                Navigator.pop(context, () {
-                  setState() {}
-                  ;
-                });
-              },
-              icon: const Icon(Icons.check),
-              color: Colors.white,
-            ),
-          ],
-        ),
-        const Positioned(
-            left: 0,
-            right: 0,
-            height: 80,
-            child: Divider(
-              endIndent: 50,
-              indent: 50,
-              thickness: 0.5,
-              height: 0,
-              color: Colors.white,
-            )),
-      ]),
+                  Navigator.pop(context, () {
+                    setState() {}
+                    ;
+                  });
+                },
+                icon: const Icon(Icons.check),
+                color: Colours.mainIcon,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -211,7 +214,7 @@ class _ClockState extends State<Clock> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: const Color.fromARGB(255, 28, 33, 41),
+      color: Colors.transparent,
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.4,
         child: Row(
@@ -244,13 +247,13 @@ class _ClockState extends State<Clock> {
 class Routine extends StatelessWidget {
   const Routine({Key? key}) : super(key: key);
   static const List<String> days = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday"
+    "MON",
+    "TUE",
+    "WED",
+    "THU",
+    "FRI",
+    "SAT",
+    "SUN"
   ];
   static List<RoutineUnit> DaysofWeek = List.generate(
       7,
@@ -260,27 +263,55 @@ class Routine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: const Color.fromARGB(255, 28, 33, 41),
-      child: Column(
-        children: [
-          const Text(
-            'Routine',
-            style: TextStyle(color: Colors.white, fontSize: 22),
-          ),
-          Table(
-            children: [
-              TableRow(children: [DaysofWeek[0], DaysofWeek[2], DaysofWeek[4]]),
-              TableRow(children: [DaysofWeek[1], DaysofWeek[3], DaysofWeek[5]]),
-              TableRow(children: [
-                const SizedBox(),
-                const SizedBox(),
-                DaysofWeek[6]
-              ]),
-            ],
-          )
-        ],
-      ),
-    );
+        color: Colors.transparent,
+        child: Column(
+          children: [
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Row(
+                children: const [
+                  Expanded(
+                    child: Divider(
+                      thickness: 0.5,
+                      color: Colours.body,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Text(
+                      "Routine",
+                      style: TextStyle(
+                        color: Colours.mainText,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      thickness: 0.5,
+                      color: Colours.body,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            Table(
+                defaultColumnWidth: const FixedColumnWidth(360 / 7),
+                children: [
+                  TableRow(children: [
+                    DaysofWeek[0],
+                    DaysofWeek[1],
+                    DaysofWeek[2],
+                    DaysofWeek[3],
+                    DaysofWeek[4],
+                    DaysofWeek[5],
+                    DaysofWeek[6],
+                  ]),
+                ]),
+          ],
+        ));
   }
 }
 
@@ -293,8 +324,8 @@ class RoutineUnit extends StatefulWidget {
 }
 
 class _RoutineUnitState extends State<RoutineUnit> {
-  static const Color beforeTap = Colors.white12;
-  static const Color afterTap = Colors.white;
+  static const Color beforeTap = Colours.hintEye;
+  static const Color afterTap = Colours.mainText;
   late Color currentColor;
   late int index = routineToIndex[widget.day] as int;
 
@@ -326,7 +357,9 @@ class _RoutineUnitState extends State<RoutineUnit> {
             widget.day,
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontStyle: FontStyle.italic, fontSize: 12, color: currentColor),
+              fontWeight: FontWeight.w700,
+              color: currentColor,
+            ),
           )),
     );
   }
@@ -348,77 +381,38 @@ class _HabitDurationState extends State<HabitDuration> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: const Color.fromARGB(255, 28, 33, 41),
+      color: Colors.transparent,
       child: Column(
         children: [
-          const Text(
-            'Habit Duration',
-            style: TextStyle(
-                fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          const Divider(
-            thickness: 0.5,
-            height: 0,
-            indent: 70,
-            endIndent: 70,
-            color: Colors.white,
-          ),
-          Align(
-            heightFactor: 2,
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      crossClipState =
-                          (crossClipState == CrossClipState.showSecond)
-                              ? CrossClipState.showFirst
-                              : CrossClipState.showFirst;
-                      minuteColor =
-                          (minuteColor == beforeTap) ? afterTap : minuteColor;
-                      hourColor =
-                          (hourColor == afterTap) ? beforeTap : hourColor;
-                    });
-                  },
-                  child: Text(
-                    'Minutes',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: minuteColor),
+              children: const [
+                Expanded(
+                  child: Divider(
+                    thickness: 0.5,
+                    color: Colours.body,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      crossClipState =
-                          (crossClipState == CrossClipState.showFirst)
-                              ? CrossClipState.showSecond
-                              : CrossClipState.showSecond;
-                      minuteColor =
-                          (minuteColor == afterTap) ? beforeTap : minuteColor;
-                      hourColor =
-                          (hourColor == beforeTap) ? afterTap : hourColor;
-                    });
-                  },
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.0),
                   child: Text(
-                    'Hours',
+                    "Duration",
                     style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: hourColor),
+                      color: Colours.mainText,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Divider(
+                    thickness: 0.5,
+                    color: Colours.body,
                   ),
                 ),
               ],
             ),
-          ),
-          const Divider(
-            thickness: 0.5,
-            height: 0,
-            indent: 100,
-            endIndent: 100,
-            color: Colors.white,
           ),
 
           ///add the list view here
@@ -431,7 +425,74 @@ class _HabitDurationState extends State<HabitDuration> {
                 itemExtent: 0.15, includeZero: true, lastNumber: 60),
             secondChild: const HorizontalTimeListView(
                 itemExtent: 0.2, includeZero: true, lastNumber: 23),
-          )
+          ),
+
+          const SizedBox(height: 15),
+          Align(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SizedBox(
+                  width: 170,
+                  height: 70,
+                  child: MyButton(
+                    color: Colours.mainButton,
+                    onTap: () {
+                      setState(() {
+                        crossClipState =
+                            (crossClipState == CrossClipState.showSecond)
+                                ? CrossClipState.showFirst
+                                : CrossClipState.showFirst;
+                        minuteColor =
+                            (minuteColor == beforeTap) ? afterTap : minuteColor;
+                        hourColor =
+                            (hourColor == afterTap) ? beforeTap : hourColor;
+                      });
+                    },
+                    child: const Center(
+                      child: Text(
+                        "Minutes",
+                        style: TextStyle(
+                          color: Colours.mainText,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 170,
+                  height: 70,
+                  child: MyButton(
+                    color: Colours.mainButton,
+                    onTap: () {
+                      setState(() {
+                        crossClipState =
+                            (crossClipState == CrossClipState.showFirst)
+                                ? CrossClipState.showSecond
+                                : CrossClipState.showSecond;
+                        minuteColor =
+                            (minuteColor == afterTap) ? beforeTap : minuteColor;
+                        hourColor =
+                            (hourColor == beforeTap) ? afterTap : hourColor;
+                      });
+                    },
+                    child: const Center(
+                      child: Text(
+                        "Hours",
+                        style: TextStyle(
+                          color: Colours.mainText,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -471,7 +532,7 @@ class HorizontalTimeListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: const Color.fromARGB(255, 28, 33, 41),
+      color: const Color.fromARGB(255, 30, 10, 52),
       child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.1,
           child: ListWheelScrollViewX.useDelegate(

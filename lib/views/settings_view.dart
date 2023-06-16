@@ -66,13 +66,15 @@ class _SettingsViewState extends State<SettingsView> {
 
       if (documentList.isNotEmpty) {
         final String uuid = documentList.first.id;
+        final String formattedName = newName.substring(0, 1).toUpperCase() +
+            newName.substring(1).toLowerCase();
         await FirebaseFirestore.instance
             .collection('users')
             .doc(uuid)
-            .update({'name': newName});
+            .update({'name': formattedName});
 
         setState(() {
-          fetchedName = newName;
+          fetchedName = formattedName;
         });
       }
     }
@@ -167,7 +169,6 @@ class _SettingsViewState extends State<SettingsView> {
 
                       const SizedBox(height: 15),
 
-                      // Email + Password
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25),
                         child: TextField(
@@ -240,11 +241,38 @@ class _SettingsViewState extends State<SettingsView> {
                               _nameSuccess = '';
                             });
                           } else {
+                            // New Name Validation Check
+                            final name = _name.text.trim();
+                            // Validating Name
+                            try {
+                              if (name.isEmpty) {
+                                throw 'You forgot to tell us your name!';
+                              } else if (RegExp(r'^[0-9]+$').hasMatch(name)) {
+                                throw 'Name cannot be numeric.';
+                              } else if (name.length > 35) {
+                                throw 'Name cannot exceed 35 characters.';
+                              } else if (name.length < 2) {
+                                throw 'Name cannot be less than 2 characters.';
+                              } else if (RegExp(r'\s').hasMatch(name)) {
+                                throw 'Name cannot have whitespace characters.';
+                              } else if (RegExp(r'[^\w\s]').hasMatch(name)) {
+                                throw 'Name cannot have special characters.';
+                              } else if (name.toLowerCase() == 'name') {
+                                throw 'That can\'t be a name, right?';
+                              }
+                            } catch (e) {
+                              setState(() {
+                                _nameError = e.toString();
+                                _nameSuccess = '';
+                              });
+                              return;
+                            }
+
                             setState(() {
                               _nameError = '';
                               _nameSuccess = 'Your name has been updated! 🎉';
                             });
-                            nameUpdate(_name.text.trim());
+                            nameUpdate(name);
                           }
                         },
                         child: const Center(

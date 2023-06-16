@@ -277,7 +277,7 @@ class _LoginViewState extends State<LoginView>
                                   // await showErrorDialog(context, 'Authentication Error');
                                   setState(() {
                                     _errorMessage =
-                                        'Sorry, there appears to be an authentication error.';
+                                        'Sorry, something seems to be wrong.';
                                   });
                                 } on MissingDetailsAuthException {
                                   setState(() {
