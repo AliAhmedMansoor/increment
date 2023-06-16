@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:incrementapp/Intro_screens/intro_page_1.dart';
-import 'package:incrementapp/Intro_screens/intro_page_2.dart';
-import 'package:incrementapp/Intro_screens/intro_page_3.dart';
+import 'package:incrementapp/intro_screens/intro_page_1.dart';
+import 'package:incrementapp/intro_screens/intro_page_2.dart';
+import 'package:incrementapp/intro_screens/intro_page_3.dart';
 import 'package:incrementapp/views/login_view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
