@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:incrementapp/reusables/routes.dart';
+import 'package:lottie/lottie.dart';
 
-class IntroScreen extends StatelessWidget {
+class introScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -13,7 +14,7 @@ class IntroScreen extends StatelessWidget {
             pages: [
               PageViewModel(
                 titleWidget: const Text(
-                  "Hiiii",
+                  "Tasks",
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -21,15 +22,14 @@ class IntroScreen extends StatelessWidget {
                 ),
                 body:
                     "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
-                image: Image.network(
-                  "https://cdn-icons-png.flaticon.com/512/4436/4436481.png",
-                  height: 70,
-                  width: 70,
+                image: Center(
+                  child: Lottie.network(
+                      'https://assets9.lottiefiles.com/packages/lf20_6gd6q7yr.json'), //https://lottiefiles.com/87971-task
                 ),
               ),
               PageViewModel(
                 titleWidget: const Text(
-                  "Hiiii",
+                  "Habits",
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -37,15 +37,14 @@ class IntroScreen extends StatelessWidget {
                 ),
                 body:
                     "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
-                image: Image.network(
-                  "https://cdn-icons-png.flaticon.com/512/4436/4436481.png",
-                  height: 70,
-                  width: 70,
+                image: Center(
+                  child: Lottie.network(
+                      'https://assets8.lottiefiles.com/packages/lf20_x265fmWrEw.json'), //https://lottiefiles.com/146952-masseaux-task
                 ),
               ),
               PageViewModel(
                 titleWidget: const Text(
-                  "Hiiii",
+                  "Progress",
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -53,10 +52,10 @@ class IntroScreen extends StatelessWidget {
                 ),
                 body:
                     "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
-                image: Image.network(
-                  "https://cdn-icons-png.flaticon.com/512/4436/4436481.png",
-                  height: 70,
-                  width: 70,
+                image: Center(
+                  child: Lottie.network(
+                      'https://assets7.lottiefiles.com/private_files/lf30_rxnyqob7.json'), //https://lottiefiles.com/112178-cat-dart
+                  //Additional Options : https://lottiefiles.com/84101-task-completion-icon-lottie-animation
                 ),
               ),
             ],

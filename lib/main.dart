@@ -58,7 +58,7 @@ void main() async {
   runApp(MaterialApp(
     title: 'increment',
     theme: ThemeData.dark(),
-    home: const HomePage(),
+    home: introScreen(),
     routes: {
       loginRoute: (context) => const LoginView(),
       registerRoute: (context) => const RegisterView(),
