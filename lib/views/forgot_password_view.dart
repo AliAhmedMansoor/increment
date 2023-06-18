@@ -221,7 +221,10 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView>
                             child: Text(
                               textAlign: TextAlign.center,
                               _message,
-                              style: const TextStyle(color: Colours.mainText),
+                              style: const TextStyle(
+                                  color: Colours.mainText,
+                                  height: 1.5,
+                                  fontSize: 14),
                             ),
                           ),
                         ),

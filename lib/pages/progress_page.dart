@@ -24,8 +24,8 @@ class _ProgressPageState extends State<ProgressPage> {
     int currentYear = Year.getYear();
 
     // Progress Card
-    double percentage = 0.5;
-    String habitName = "Running";
+    double percentage = 0.33;
+    String habitName = "Swimming";
 
     return Scaffold(
       body: Stack(
@@ -167,7 +167,7 @@ class _ProgressPageState extends State<ProgressPage> {
                                                 ).createShader(bounds);
                                               },
                                               child: const Text(
-                                                'T',
+                                                '6',
                                                 style: TextStyle(
                                                   fontSize: 50,
                                                   fontWeight: FontWeight.bold,
@@ -223,7 +223,7 @@ class _ProgressPageState extends State<ProgressPage> {
                                                 ).createShader(bounds);
                                               },
                                               child: const Text(
-                                                "H",
+                                                "1",
                                                 style: TextStyle(
                                                   fontSize: 50,
                                                   fontWeight: FontWeight.bold,

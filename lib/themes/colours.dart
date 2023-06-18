@@ -1,5 +1,3 @@
-// Unified Interface Colours
-
 import 'package:flutter/material.dart';
 
 class Colours {

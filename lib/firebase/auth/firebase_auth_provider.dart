@@ -16,7 +16,7 @@ class FirebaseAuthProvider implements AuthProvider {
 
     if (email.isEmpty || password.isEmpty) {
       throw MissingDetailsAuthException();
-    } else if (email.indexOf('@') < 6 || email.indexOf('@') > 30) {
+    } else if (email.indexOf('@') < 5 || email.indexOf('@') > 30) {
       throw OutOfRangeAuthException();
     } else if (email.startsWith(RegExp(r'\d'))) {
       throw CannotStartWithAuthException();
@@ -65,6 +65,7 @@ class FirebaseAuthProvider implements AuthProvider {
     }
   }
 
+  // Retrieving the current user's info from Firebase
   @override
   AuthUser? get currentUser {
     final user = FirebaseAuth.instance.currentUser;

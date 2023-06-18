@@ -48,7 +48,7 @@ class _HabitsPageState extends State<HabitsPage> {
                       padding: EdgeInsets.only(bottom: 20),
 // Habit Counter
                       child: Text(
-                        '0',
+                        '1',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
@@ -479,7 +479,7 @@ class TimeLeft extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Ticker(stopWatchTimer: stopWatchTimer),
-          const Text(' / 10 mins',
+          const Text(' / 02 mins',
               style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w600,

@@ -4,6 +4,7 @@ import 'package:incrementapp/firebase/auth/firebase_auth_provider.dart';
 
 class AuthService implements AuthProvider {
   final AuthProvider provider;
+
   // Constructor
   const AuthService(this.provider);
 

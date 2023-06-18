@@ -23,27 +23,38 @@ class TasksPage extends StatefulWidget {
 }
 
 class Users {
-  final String name;
-  String taskId;
-  String task;
-  bool isChecked;
-  DateTime time;
+  final String _name;
+  final String _taskId;
+  final String _task;
+  bool _isChecked;
+  final DateTime _time;
 
   Users({
-    this.taskId = '',
-    required this.task,
-    required this.name,
-    this.isChecked = false,
-    required this.time,
-  });
+    String taskId = '',
+    required String task,
+    required String name,
+    bool isChecked = false,
+    required DateTime time,
+  })  : _taskId = taskId,
+        _task = task,
+        _name = name,
+        _isChecked = isChecked,
+        _time = time;
+
+  // Getters
+  String get name => _name;
+  String get taskId => _taskId;
+  String get task => _task;
+  bool get isChecked => _isChecked;
+  DateTime get time => _time;
 
   // Writing
   Map<String, dynamic> toJson() => {
-        'name': name,
-        'taskId': taskId,
-        'task': task,
-        'isChecked': isChecked,
-        'time': Timestamp.fromDate(time),
+        'name': _name,
+        'taskId': _taskId,
+        'task': _task,
+        'isChecked': _isChecked,
+        'time': Timestamp.fromDate(_time),
       };
 
   // Reading
@@ -58,7 +69,7 @@ class Users {
   }
 
   void toggleChecked() {
-    isChecked = !isChecked;
+    _isChecked = !_isChecked;
   }
 }
 
